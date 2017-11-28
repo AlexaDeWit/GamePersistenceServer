@@ -1,22 +1,28 @@
 Sequel.migration do
   up do
-    alter_table(:characters) do
-      add_column :location_x, Integer
-      add_column :location_y, Integer
-      add_column :location_z, Integer
-      add_column :current_health, Float
-      add_column :current_stamina, Float
-      add_column :current_focus, Float
+    alter_table(:CHARACTERS) do
+      add_column :LOCATION_X, Integer
+      add_column :LOCATION_Y, Integer
+      add_column :LOCATION_Z, Integer
+      add_column :CURRENT_HEALTH, Float
+      add_column :CURRENT_TOUGHNESS, Float
+      add_column :CURRENT_STAMINA, Float
+      add_column :CURRENT_ENDURANCE, Float
+      add_column :CURRENT_FOCUS, Float
+      add_column :CURRENT_CLARITY, Float
     end
   end
   down do
-    alter_table(:characters) do
-      drop_column :location_x, Integer
-      drop_column :location_y, Integer
-      drop_column :location_z, Integer
-      drop_column :current_health, Float
-      drop_column :current_stamina, Float
-      drop_column :current_focus, Float
+    alter_table(:CHARACTERS) do
+      drop_column :LOCATION_X
+      drop_column :LOCATION_Y
+      drop_column :LOCATION_Z
+      drop_column :CURRENT_HEALTH
+      drop_column :CURRENT_TOUGHNESS
+      drop_column :CURRENT_STAMINA
+      drop_column :CURRENT_ENDURANCE
+      drop_column :CURRENT_FOCUS
+      drop_column :CURRENT_CLARITY
     end
   end
 end

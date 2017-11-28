@@ -1,12 +1,12 @@
 Sequel.migration do
   up do
-    alter_table(:characters) do
-      add_column :species_id, String, :null => false, :default => "Human"
+    alter_table(:CHARACTERS) do
+      add_column :SPECIES_NAME, String, :null => false, :default => "Human"
     end
   end
   down do
-    alter_table(:characters) do
-      drop_column :species_id
+    alter_table(:CHARACTERS) do
+      drop_column :SPECIES_NAME
     end
   end
 end

@@ -1,12 +1,12 @@
 Sequel.migration do
   up do
-    create_table(:clients) do
-      primary_key :id, :null=>false
-      String :client_id, :null=>false, :unique=>true
-      String :client_secret, :null=>false, :unique=>true
+    create_table(:CLIENTS) do
+      primary_key :ID, :null=>false
+      String :CLIENT_ID, :null=>false, :unique=>true
+      String :CLIENT_SECRET, :null=>false, :unique=>true
     end
   end
   down do
-    drop_table(:clients)
+    drop_table(:CLIENTS)
   end
 end

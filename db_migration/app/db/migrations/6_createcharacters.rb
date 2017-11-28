@@ -1,12 +1,12 @@
 Sequel.migration do
   up do
-    create_table(:characters) do
-      primary_key :id, :null=>false
-      foreign_key :user_id, :null=>false
-      String    :name, :null=>false, :unique=>true
+    create_table(:CHARACTERS) do
+      primary_key :ID, :null=>false
+      foreign_key :FK_USER_ID, :null=>false
+      String      :NAME, :null=>false, :unique=>true
     end
   end
   down do
-    drop_table(:characters)
+    drop_table(:CHARACTERS)
   end
 end

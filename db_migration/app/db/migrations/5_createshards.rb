@@ -1,15 +1,15 @@
 Sequel.migration do
   up do
-    create_table(:shards) do
-      primary_key :id, :null=>false
-      foreign_key :client_id, :clients, :null=>false
-      String    :name, :null=>false, :unique=>true
-      String    :region
-      Integer   :population
-      Boolean   :accepting_connections
+    create_table(:SHARDS) do
+      primary_key :ID, :null=>false
+      foreign_key :FK_CLIENT_ID, :CLIENTS, :null=>false
+      String    :NAME, :null=>false, :unique=>true
+      String    :REGION, :default => "EU"
+      Integer   :POPULATION, :default => 0
+      Boolean   :ACCEPTING_CONNECTIONS, :null => false, :default => true
     end
   end
   down do
-    drop_table(:shards)
+    drop_table(:SHARDS)
   end
 end
