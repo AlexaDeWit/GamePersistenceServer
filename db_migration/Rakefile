@@ -21,4 +21,12 @@ namespace :db do
     Sequel.extension :core_extensions
     PGDB.run("CREATE DATABASE catsandbox")
   end
+
+  task :reset_database do
+    require_relative 'config/config.rb'
+    require 'sequel'
+    Sequel.extension :core_extensions
+    PGDB.run("DROP DATABASE catsandbox")
+    PGDB.run("CREATE DATABASE catsandbox")
+  end
 end

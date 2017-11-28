@@ -1,8 +1,8 @@
 Sequel.migration do
   up do
-    rename_column :users, :password, :password_digest
+    rename_column :users, :PASSWORD, :PASSWORD_DIGEST
   end
   down do
-    rename_column :users, :password_digest, :password
+    rename_column :users, :PASSWORD_DIGEST, :PASSWORD
   end
 end
