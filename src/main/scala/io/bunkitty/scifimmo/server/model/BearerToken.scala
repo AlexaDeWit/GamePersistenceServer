@@ -1,4 +1,4 @@
-package construction.universe.server.model
+package io.bunkitty.scifimmo.server.model
 
 case class BearerToken(token: String) {
 

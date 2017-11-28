@@ -1,10 +1,10 @@
-package construction.universe.server.model
+package io.bunkitty.scifimmo.server.model
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
 import java.util.UUID
 
-import construction.universe.argon2.HashedPassword
+import io.bunkitty.scifimmo.argon2.HashedPassword
 import slick.lifted.Tag
 import slick.jdbc.PostgresProfile.api._
 

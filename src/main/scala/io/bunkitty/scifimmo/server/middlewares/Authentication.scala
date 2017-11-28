@@ -1,4 +1,4 @@
-package construction.universe.server.middlewares
+package io.bunkitty.scifimmo.server.middlewares
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
@@ -6,9 +6,9 @@ import java.time.LocalDateTime
 import cats.data._
 import cats.effect._
 import cats.implicits._
-import construction.universe.db.DbUtil._
-import construction.universe.server.model._
-import construction.universe.throwables.InvalidAuthTokenException
+import io.bunkitty.scifimmo.db.DbUtil._
+import io.bunkitty.scifimmo.server.model._
+import io.bunkitty.scifimmo.throwables.InvalidAuthTokenException
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Authorization

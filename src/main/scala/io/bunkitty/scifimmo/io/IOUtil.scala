@@ -1,7 +1,7 @@
-package construction.universe.io
+package io.bunkitty.scifimmo.io
 
 import cats.effect.IO
-import construction.universe.throwables.OptionWithoutContentsException
+import io.bunkitty.scifimmo.throwables.OptionWithoutContentsException
 
 object IOUtil {
 

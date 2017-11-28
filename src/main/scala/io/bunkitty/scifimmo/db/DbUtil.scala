@@ -1,4 +1,4 @@
-package construction.universe.db
+package io.bunkitty.scifimmo.db
 
 import cats.Always
 import cats.effect.IO

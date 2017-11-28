@@ -1,13 +1,13 @@
-package construction.universe.server.services
+package io.bunkitty.scifimmo.server.services
 
 import cats.effect.{Effect, IO}
-import construction.universe.argon2.ArgonScala
-import construction.universe.server.dto.request.accounts.RegistrationRequest
-import construction.universe.server.dto.request.accounts.RegistrationRequest._
-import construction.universe.server.dto.response.sessions.AccessTokenDto
-import construction.universe.server.dto.response.sessions.AccessTokenDto._
-import construction.universe.server.model._
-import construction.universe.db.DbUtil._
+import io.bunkitty.scifimmo.argon2.ArgonScala
+import io.bunkitty.scifimmo.server.dto.request.accounts.RegistrationRequest
+import io.bunkitty.scifimmo.server.dto.request.accounts.RegistrationRequest._
+import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
+import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto._
+import io.bunkitty.scifimmo.server.model._
+import io.bunkitty.scifimmo.db.DbUtil._
 import org.http4s.HttpService
 import org.http4s.dsl.Http4sDsl
 import io.circe.syntax._

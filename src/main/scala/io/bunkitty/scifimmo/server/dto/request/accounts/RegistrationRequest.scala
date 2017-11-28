@@ -1,4 +1,4 @@
-package construction.universe.server.dto.request.accounts
+package io.bunkitty.scifimmo.server.dto.request.accounts
 
 import cats.effect._
 import io.circe.generic.JsonCodec

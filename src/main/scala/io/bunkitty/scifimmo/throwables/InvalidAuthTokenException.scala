@@ -1,4 +1,4 @@
-package construction.universe.throwables
+package io.bunkitty.scifimmo.throwables
 
 case class InvalidAuthTokenException(private val message: String = "",
                                      private val cause: Throwable = None.orNull)

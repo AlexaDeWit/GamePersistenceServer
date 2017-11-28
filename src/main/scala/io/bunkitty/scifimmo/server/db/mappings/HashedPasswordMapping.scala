@@ -1,6 +1,6 @@
-package construction.universe.server.db.mappings
+package io.bunkitty.scifimmo.server.db.mappings
 
-import construction.universe.argon2.HashedPassword
+import io.bunkitty.scifimmo.argon2.HashedPassword
 import slick.jdbc.PostgresProfile.api._
 
 object HashedPasswordMapping {

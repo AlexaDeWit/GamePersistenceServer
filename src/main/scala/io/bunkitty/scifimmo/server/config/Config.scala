@@ -1,4 +1,4 @@
-package construction.universe.server.config
+package io.bunkitty.scifimmo.server.config
 
 import com.typesafe.config.ConfigFactory
 

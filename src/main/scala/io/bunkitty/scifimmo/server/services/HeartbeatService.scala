@@ -1,9 +1,6 @@
-package construction.universe.server.services
+package io.bunkitty.scifimmo.server.services
 
 import cats.effect.{Effect, IO}
-import construction.universe.server.config.Config
-import construction.universe.server.dto.request.accounts.LoginRequest
-import construction.universe.server.model.Users
 import org.http4s.HttpService
 import org.http4s.dsl.Http4sDsl
 

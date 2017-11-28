@@ -1,6 +1,6 @@
-package construction.universe.argon2
+package io.bunkitty.scifimmo.argon2
 
-import construction.universe.argon2.ArgonScala.RawPassword
+import io.bunkitty.scifimmo.argon2.ArgonScala.RawPassword
 import de.mkammerer.argon2.{Argon2, Argon2Factory}
 
 
