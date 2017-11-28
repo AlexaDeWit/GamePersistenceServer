@@ -1,1 +1,25 @@
 /log
+*.class
+*.log
+#SBT
+.cache/
+.history/
+.lib/
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+#Scala IDE
+.scala_dependencies
+.worksheet
+.idea
+#Ensime
+.ensime
+.ensime_cache
+#Node
+**/node_modules
+#Vue
+Client/dist/build.js
+Server/src/main/resources/dist/build.js
