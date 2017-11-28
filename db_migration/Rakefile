@@ -1,0 +1,24 @@
+task :default => [:migrate]
+
+namespace :db do
+
+  task :migrate do
+    require_relative 'config/config.rb'
+    require 'sequel'
+    Sequel.extension :migration, :core_extensions
+    Sequel::Migrator.run(SBDB, './app/db/migrations', :use_transactions=>true)
+  end
+  task :rollback do
+    require_relative 'config/config.rb'
+    require 'sequel'
+    Sequel.extension :migration, :core_extensions
+    Sequel::Migrator.run(SBDB, './app/db/migrations', :use_transactions=>true, :target=>0)
+  end
+
+  task :create_database do
+    require_relative 'config/config.rb'
+    require 'sequel'
+    Sequel.extension :core_extensions
+    PGDB.run("CREATE DATABASE catsandbox")
+  end
+end
