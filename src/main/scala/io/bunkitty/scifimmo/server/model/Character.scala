@@ -6,19 +6,19 @@ case class Character(id: Option[Long],
                      fkUserId: Long,
                      name: String,
                      speciesName: String,
-                     locationX: Float,
-                     locationY: Float,
-                     locationZ: Float,
-                    //Stats
-                     currentHealth: Float,
-                     currentToughness: Float,
-                     currentConstitution: Float,
-                     currentStamina: Float,
-                     currentQuickness: Float,
-                     currentEndurance: Float,
-                     currentFocus: Float,
-                     currentClarity: Float,
-                     currentWillpower: Float,
+                     locationX: Option[Float],
+                     locationY: Option[Float],
+                     locationZ: Option[Float],
+                     //Stats
+                     currentHealth: Option[Float],
+                     currentToughness: Option[Float],
+                     currentConstitution: Option[Float],
+                     currentStamina: Option[Float],
+                     currentQuickness: Option[Float],
+                     currentEndurance: Option[Float],
+                     currentFocus: Option[Float],
+                     currentClarity: Option[Float],
+                     currentWillpower: Option[Float],
                     )
 
 class Characters(tag: Tag) extends Table[Character](tag, "POSTGRES") {
@@ -27,19 +27,19 @@ class Characters(tag: Tag) extends Table[Character](tag, "POSTGRES") {
   def fkUserId = column[Long]("FK_USER_ID")
   def name = column[String]("NAME")
   def speciesName = column[String]("SPECIES_NAME")
-  def locationX = column[Float]("LOCATION_X")
-  def locationY = column[Float]("LOCATION_Y")
-  def locationZ = column[Float]("LOCATION_Z")
+  def locationX = column[Option[Float]]("LOCATION_X")
+  def locationY = column[Option[Float]]("LOCATION_Y")
+  def locationZ = column[Option[Float]]("LOCATION_Z")
   //Stats
-  def currentHealth = column[Float]("CURRENT_HEALTH")
-  def currentToughness = column[Float]("CURRENT_TOUGHNESS")
-  def currentConstitution = column[Float]("CURRENT_CONSTITUTION")
-  def currentStamina = column[Float]("CURRENT_STAMINA")
-  def currentQuickness = column[Float]("CURRENT_QUICKNESS")
-  def currentEndurance = column[Float]("CURRENT_ENDURANCE")
-  def currentFocus = column[Float]("CURRENT_FOCUS")
-  def currentClarity = column[Float]("CURRENT_CLARITY")
-  def currentWillpower = column[Float]("CURRENT_WILLPOWER")
+  def currentHealth = column[Option[Float]]("CURRENT_HEALTH")
+  def currentToughness = column[Option[Float]]("CURRENT_TOUGHNESS")
+  def currentConstitution = column[Option[Float]]("CURRENT_CONSTITUTION")
+  def currentStamina = column[Option[Float]]("CURRENT_STAMINA")
+  def currentQuickness = column[Option[Float]]("CURRENT_QUICKNESS")
+  def currentEndurance = column[Option[Float]]("CURRENT_ENDURANCE")
+  def currentFocus = column[Option[Float]]("CURRENT_FOCUS")
+  def currentClarity = column[Option[Float]]("CURRENT_CLARITY")
+  def currentWillpower = column[Option[Float]]("CURRENT_WILLPOWER")
 
   def * = (id.?,
         fkUserId,
