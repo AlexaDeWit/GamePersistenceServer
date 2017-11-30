@@ -12,7 +12,7 @@ case class AccessToken(id: Option[Long], fkUserId: Long, expiry: Timestamp, toke
 
 }
 
-class AccessTokens(tag: Tag) extends Table[AccessToken](tag, "access_tokens") {
+class AccessTokens(tag: Tag) extends Table[AccessToken](tag, "SESSION_TOKENS") {
   val UsersQuery = TableQuery[Users]
 
   def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)

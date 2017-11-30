@@ -9,7 +9,7 @@ case class User(id: Option[Long], email: String, password: HashedPassword, displ
 
 }
 
-class Users(tag: Tag) extends Table[User](tag, "users") {
+class Users(tag: Tag) extends Table[User](tag, "USERS") {
   def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
   def email = column[String]("EMAIL")
   def password = column[HashedPassword]("PASSWORD")
