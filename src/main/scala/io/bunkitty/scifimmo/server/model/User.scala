@@ -5,7 +5,7 @@ import slick.jdbc.PostgresProfile.api._
 import io.bunkitty.scifimmo.server.db.mappings.HashedPasswordMapping._
 import io.bunkitty.scifimmo.argon2.HashedPassword
 
-case class User(id: Option[Long], email: String, password: HashedPassword, displayName: String, validatedEmail: Boolean = false) {
+case class User(id: Option[Long], email: String, password: HashedPassword, username: String, validatedEmail: Boolean = false) {
 
 }
 

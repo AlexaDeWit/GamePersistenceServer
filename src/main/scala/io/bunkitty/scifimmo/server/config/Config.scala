@@ -3,8 +3,6 @@ package io.bunkitty.scifimmo.server.config
 import pureconfig._
 import pureconfig.error.ConfigReaderFailures
 
-import scala.util.Try
-
 object Config {
   val config: Either[ConfigReaderFailures,Config] = loadConfig[Config]
 }

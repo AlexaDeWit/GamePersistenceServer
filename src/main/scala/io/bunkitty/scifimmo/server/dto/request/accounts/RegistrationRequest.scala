@@ -6,7 +6,7 @@ import io.circe.generic.auto._
 import org.http4s._
 import org.http4s.circe._
 
-@JsonCodec case class RegistrationRequest(displayName: String, email: String, rawPassword: String) {
+@JsonCodec case class RegistrationRequest(username: String, email: String, rawPassword: String) {
 
 }
 

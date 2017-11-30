@@ -21,7 +21,7 @@ case class AccountService(db: Database) extends Http4sDsl[IO]  {
     case request @ POST -> Root / "register" => {
       request.decode[RegistrationRequest] { registrationRequest =>
         val pass = ArgonScala.hashPassword(registrationRequest.rawPassword)
-        val userToMake = User(None, registrationRequest.email, pass, registrationRequest.displayName)
+        val userToMake = User(None, registrationRequest.email, pass, registrationRequest.username)
         val users = TableQuery[Users]
         val tokens = TableQuery[AccessTokens]
         val userQuery = (users returning users.map(_.id)) += userToMake
