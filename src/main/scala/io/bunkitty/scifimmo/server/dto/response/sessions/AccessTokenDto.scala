@@ -4,12 +4,13 @@ import java.sql.Timestamp
 import io.bunkitty.scifimmo.server.codecs.TimeCodecs._ //Intellij lies, this is absolutely needed for the token codec.
 import cats.effect.IO
 import io.bunkitty.scifimmo.server.model.AccessToken
-import io.circe.generic.JsonCodec
+import io.bunkitty.scifimmo.server.codecs.rules._ //Actually needed
+import io.circe.generic.extras._
 import io.circe.generic.auto._
 import org.http4s.EntityEncoder
 import org.http4s.circe._
 
-@JsonCodec case class AccessTokenDto(tokenString: String, expiry: Timestamp) {
+@ConfiguredJsonCodec case class AccessTokenDto(tokenString: String, expiry: Timestamp) {
 
 }
 
