@@ -14,17 +14,17 @@ addCompilerPlugin(
 )
 
 libraryDependencies ++= Seq(
-  "org.http4s"         %% "http4s-blaze-server" % Http4sVersion,
-  "org.http4s"         %% "http4s-circe"        % Http4sVersion,
-  "org.http4s"         %% "http4s-dsl"          % Http4sVersion,
-  "ch.qos.logback"     %  "logback-classic"     % LogbackVersion,
-  "io.circe"           %% "circe-parser"        % circeVersion,
-  "io.circe"           %% "circe-generic"       % circeVersion,
-  "com.typesafe.slick" %% "slick"               % "3.2.1",
-  "de.mkammerer"       %  "argon2-jvm"          % "2.2",
-  "com.typesafe.slick" %% "slick-hikaricp"      % "3.2.1",
-  "com.typesafe"       %  "config"              % "1.3.1",
-  "org.postgresql"     %  "postgresql"          % "42.1.4",
-  "org.scalatest"      %% "scalatest"           % "3.0.4"         % "test"
+  "org.http4s"            %% "http4s-blaze-server" % Http4sVersion,
+  "org.http4s"            %% "http4s-circe"        % Http4sVersion,
+  "org.http4s"            %% "http4s-dsl"          % Http4sVersion,
+  "ch.qos.logback"        %  "logback-classic"     % LogbackVersion,
+  "io.circe"              %% "circe-parser"        % circeVersion,
+  "io.circe"              %% "circe-generic"       % circeVersion,
+  "com.typesafe.slick"    %% "slick"               % "3.2.1",
+  "de.mkammerer"          %  "argon2-jvm"          % "2.2",
+  "com.typesafe.slick"    %% "slick-hikaricp"      % "3.2.1",
+  "com.github.pureconfig" %% "pureconfig"          % "0.8.0",
+  "org.postgresql"        %  "postgresql"          % "42.1.4",
+  "org.scalatest"         %% "scalatest"           % "3.0.4"         % "test"
 
 )

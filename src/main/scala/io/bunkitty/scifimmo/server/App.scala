@@ -15,11 +15,11 @@ import slick.jdbc.PostgresProfile.api._
 import scala.util.{Failure, Success, Try}
 
 object App extends StreamApp[IO] {
-  val config: Try[Config] = Config.loadConfig
+  private val config = Config.config
   val applicationPrereqs: Either[String, ApplicationPrerequisites] = for {
-    conf <- config.toEither.leftMap(t => s"Could not load Config: Error was ${t.getMessage}")
-    dbConf <- conf.db.toRight("DB Config Not Found")
-    db = Database.forURL(dbConf.url, dbConf.username, dbConf.password, null, dbConf.driver)
+    conf <- config.leftMap(t => s"Could not load Config: Error was ${t}")
+    dbConf = conf.db
+    db = Database.forURL(dbConf.url, dbConf.user, dbConf.password, null, dbConf.driver)
     authMiddleware = new Authentication(db).authMiddleware
   } yield ApplicationPrerequisites(db, authMiddleware)
 
