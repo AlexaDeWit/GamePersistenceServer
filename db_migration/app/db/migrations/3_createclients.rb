@@ -1,7 +1,7 @@
 Sequel.migration do
   up do
     create_table(:CLIENTS) do
-      primary_key :ID, :null=>false
+      primary_key :ID, :null=>false, type: :Bignum
       String :CLIENT_ID, :null=>false, :unique=>true
       String :CLIENT_SECRET, :null=>false, :unique=>true
     end

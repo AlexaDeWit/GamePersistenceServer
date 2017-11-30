@@ -1,8 +1,8 @@
 Sequel.migration do
   up do
     create_table(:CHARACTERS) do
-      primary_key :ID, :null=>false
-      foreign_key :FK_USER_ID, :null=>false
+      primary_key :ID, :null=>false, type: :Bignum
+      foreign_key :FK_USER_ID, :USERS, :null=>false, type: :Bignum
       String      :NAME, :null=>false, :unique=>true
     end
   end
