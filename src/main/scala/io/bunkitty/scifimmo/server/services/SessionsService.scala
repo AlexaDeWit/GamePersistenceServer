@@ -8,11 +8,15 @@ import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
 import io.bunkitty.scifimmo.server.model._
+import io.bunkitty.scifimmo.server.typeclasses._
+import io.bunkitty.scifimmo.server.typeclasses.instances._
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
 case class SessionsService(db: Database) extends Http4sDsl[IO] {
+
+  implicit lazy val databaseInstance: Database = db
 
   def route(): HttpService[IO] = HttpService {
     case request @ POST -> Root / "login" => {
@@ -25,12 +29,9 @@ case class SessionsService(db: Database) extends Http4sDsl[IO] {
           response <- if(passwordValidation) {
             user.id match {
               case Some(id) => {
-                val tokenQuery = (tokens returning tokens.map(_.id))  += AccessTokens.generateFor(id)
-                for {
-                  tokenId <- db.runIO(tokenQuery)
-                  token <- db.runIO[AccessToken](tokens.filter(_.id === tokenId).result.head)
-                  response <- Ok(AccessTokenDto.fromTokenDao(token))
-                } yield response
+                val tokenToInsert = AccessTokens.generateFor(id)
+                val resultantToken = DbIdentifiable[AccessToken].insertQuery(tokenToInsert)
+                resultantToken.flatMap(token => Ok(AccessTokenDto.fromTokenDao(token)))
               }
               case _ => Forbidden()
             }
