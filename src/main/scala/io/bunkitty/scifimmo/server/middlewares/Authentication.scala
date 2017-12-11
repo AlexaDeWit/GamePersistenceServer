@@ -21,6 +21,9 @@ class Authentication(db: Database) extends Http4sDsl[IO] {
 
   def retrieveUser: Kleisli[IO, BearerToken, User] = Kleisli(tokenString => {
     val now = Timestamp.valueOf(LocalDateTime.now())
+    val userFetchQuery = for {
+      (_, user) <- TableQuery[AccessTokens] join TableQuery[Users] on (_.fkUserId == _.id)
+    } yield user
     val tokenQuery = TableQuery[AccessTokens].filter(_.token === tokenString.token).filter(_.expiry > now).take(1).result
     for {
       tokenOpt <- db.runIO[Option[AccessToken]](tokenQuery.headOption)
