@@ -2,7 +2,7 @@ organization := "io.bunkitty"
 name := "Scifi MMO Server"
 version := "0.0.1-SNAPSHOT"
 scalaVersion := "2.12.3"
-scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification")
+scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions")
 assemblyJarName in assembly := "ScifiMmoServer.jar"
 
 val Http4sVersion = "0.18.0-M5"
@@ -22,6 +22,7 @@ libraryDependencies ++= Seq(
   "io.circe"              %% "circe-parser"         % circeVersion,
   "io.circe"              %% "circe-generic"        % circeVersion,
   "io.circe"              %% "circe-generic-extras" % circeVersion,
+  "com.github.mpilquist"  %% "simulacrum"           % "0.11.0",
   "com.typesafe.slick"    %% "slick"                % "3.2.1",
   "de.mkammerer"          %  "argon2-jvm"           % "2.2",
   "com.typesafe.slick"    %% "slick-hikaricp"       % "3.2.1",

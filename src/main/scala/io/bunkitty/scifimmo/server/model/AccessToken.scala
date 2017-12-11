@@ -9,7 +9,6 @@ import slick.lifted.Tag
 import slick.jdbc.PostgresProfile.api._
 
 case class AccessToken(id: Option[Long], fkUserId: Long, expiry: Timestamp, token: String) {
-
 }
 
 class AccessTokens(tag: Tag) extends Table[AccessToken](tag, "SESSION_TOKENS") {

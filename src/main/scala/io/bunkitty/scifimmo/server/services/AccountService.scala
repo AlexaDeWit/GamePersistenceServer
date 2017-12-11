@@ -8,6 +8,8 @@ import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto._
 import io.bunkitty.scifimmo.server.model._
 import io.bunkitty.scifimmo.db.DbUtil._
+import io.bunkitty.scifimmo.server.typeclasses._
+import io.bunkitty.scifimmo.server.typeclasses.instances._
 import org.http4s.HttpService
 import org.http4s.dsl.Http4sDsl
 import io.circe.syntax._
@@ -16,6 +18,8 @@ import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.ExecutionContext.Implicits.global
 
 case class AccountService(db: Database) extends Http4sDsl[IO]  {
+
+  implicit lazy val databaseInstance: Database = db
 
   def route(): HttpService[IO] = HttpService {
     case request @ POST -> Root / "register" => {
@@ -27,10 +31,9 @@ case class AccountService(db: Database) extends Http4sDsl[IO]  {
         val userQuery = (users returning users.map(_.id)) += userToMake
         for {
           user <- db.runIO(userQuery)
-          tokenQuery = (tokens returning tokens.map(_.id)) += AccessTokens.generateFor(user)
-          tokenId <- db.runIO(tokenQuery)
-          token <- db.runIO[AccessToken](tokens.filter(_.id === tokenId).result.head) //TODO: Order by date
-          response <- Ok(AccessTokenDto.fromTokenDao(token))
+          tokenToInsert =  AccessTokens.generateFor(user)
+          resultantToken <- DbIdentifiable[AccessToken].insertQuery(tokenToInsert)
+          response <- Ok(AccessTokenDto.fromTokenDao(resultantToken))
         } yield response
       }
     }
