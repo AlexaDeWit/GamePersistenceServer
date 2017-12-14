@@ -29,11 +29,13 @@ object App extends StreamApp[IO] {
         val heartbeatService = HeartbeatService().route()
         val accountService = AccountService(prereqs.db).route()
         val sessionsService = SessionsService(prereqs.db).route()
+        val charactersService = prereqs.authMiddleware(CharactersService(prereqs.db).route())
         BlazeBuilder[IO]
           .bindHttp(8080, "0.0.0.0")
           .mountService(heartbeatService,"/heartbeats")
           .mountService(accountService, "/api/accounts")
           .mountService(sessionsService, "/api/sessions")
+          .mountService(charactersService, "/api/characters")
           .serve
       }
       case Left(message) => Stream.fail(new ApplicationConfigurationException(message))
