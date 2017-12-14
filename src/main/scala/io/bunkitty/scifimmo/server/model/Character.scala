@@ -1,4 +1,8 @@
 package io.bunkitty.scifimmo.server.model
+
+import io.bunkitty.scifimmo.server.dto.characterdata.CharacterDto
+import io.circe.generic.JsonCodec
+import io.circe.generic.auto._
 import slick.lifted.Tag
 import slick.jdbc.PostgresProfile.api._
 
@@ -19,7 +23,24 @@ case class Character(id: Option[Long],
                      currentFocus: Option[Float],
                      currentClarity: Option[Float],
                      currentWillpower: Option[Float],
-                    )
+                    ){
+  def toDto: CharacterDto = CharacterDto(
+    name,
+    speciesName,
+    locationX,
+    locationY,
+    locationZ,
+    currentHealth,
+    currentToughness,
+    currentConstitution,
+    currentStamina,
+    currentQuickness,
+    currentEndurance,
+    currentFocus,
+    currentClarity,
+    currentWillpower
+  )
+}
 
 class Characters(tag: Tag) extends Table[Character](tag, "POSTGRES") {
 

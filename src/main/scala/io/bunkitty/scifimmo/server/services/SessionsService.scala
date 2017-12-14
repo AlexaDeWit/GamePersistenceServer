@@ -16,7 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 case class SessionsService(db: Database) extends Http4sDsl[IO] {
 
-  implicit lazy val databaseInstance: Database = db
+  private implicit lazy val databaseInstance: Database = db
 
   def route(): HttpService[IO] = HttpService {
     case request @ POST -> Root / "login" => {

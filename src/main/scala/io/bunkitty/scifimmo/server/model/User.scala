@@ -1,6 +1,8 @@
 package io.bunkitty.scifimmo.server.model
 
 import slick.lifted.Tag
+import io.circe.generic.JsonCodec
+import io.circe.generic.auto._
 import slick.jdbc.PostgresProfile.api._
 import io.bunkitty.scifimmo.server.db.mappings.HashedPasswordMapping._
 import io.bunkitty.scifimmo.argon2.HashedPassword
