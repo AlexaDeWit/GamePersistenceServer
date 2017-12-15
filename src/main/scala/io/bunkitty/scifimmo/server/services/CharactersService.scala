@@ -4,8 +4,8 @@ import org.http4s._
 import org.http4s.dsl.io._
 import cats.effect.{Effect, IO}
 import io.bunkitty.scifimmo.db.DbUtil._
-import io.bunkitty.scifimmo.server.dto.characterdata._
 import io.bunkitty.scifimmo.server.model._
+import io.bunkitty.scifimmo.server.codecs.Characters._
 import org.http4s.AuthedService
 import slick.jdbc.PostgresProfile.api._
 
@@ -20,10 +20,8 @@ case class CharactersService(db: Database) {
     case GET -> Root as user => {
       for {
         chars <- db.runIO[Seq[Character]](characters.filter(_.fkUserId === user.id).result)
-        response <- Ok(chars.map(_.toDto))
+        response <- Ok(chars.toList)
       } yield response
     }
   }
-
-
 }
