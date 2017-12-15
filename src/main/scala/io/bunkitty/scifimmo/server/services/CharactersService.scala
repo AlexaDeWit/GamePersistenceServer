@@ -10,6 +10,7 @@ import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterReques
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest._
 import io.bunkitty.scifimmo.server.typeclasses._
 import io.bunkitty.scifimmo.server.typeclasses.instances._
+import io.bunkitty.scifimmo.throwables.OptionWithoutContentsException
 import org.http4s.AuthedService
 import slick.jdbc.PostgresProfile.api._
 
@@ -30,9 +31,9 @@ case class CharactersService(db: Database) {
     case request @ POST -> Root / "create" as user => {
       request.req.decode[CreateCharacterRequest] { character =>
         for {
-          userId <- IO(user.id.get)
-          character <- IO(Character(None, userId, character.name, character.species))
-          created <- DbIdentifiable[Character].insertQuery(character)
+          userId <- user.id.map(id => IO(id)).getOrElse(IO.raiseError(OptionWithoutContentsException("Could not retrieve user ID.")))
+          characterToInsert = Character(None, userId, character.name, character.species)
+          created <- DbIdentifiable[Character, Characters].insertQuery(characterToInsert)
           response <- Ok(created)
         } yield response
       }
