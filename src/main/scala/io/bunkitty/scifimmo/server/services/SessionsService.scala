@@ -9,7 +9,6 @@ import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
 import io.bunkitty.scifimmo.server.model._
 import io.bunkitty.scifimmo.server.typeclasses._
-import io.bunkitty.scifimmo.server.typeclasses.instances._
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -30,7 +29,7 @@ case class SessionsService(db: Database) extends Http4sDsl[IO] {
             user.id match {
               case Some(id) => {
                 val tokenToInsert = AccessTokens.generateFor(id)
-                val resultantToken = DbIdentifiable[AccessToken].insertQuery(tokenToInsert)
+                val resultantToken = DbIdentifiable.insertQuery[AccessToken, AccessTokens](tokenToInsert)
                 resultantToken.flatMap(token => Ok(AccessTokenDto.fromTokenDao(token)))
               }
               case _ => Forbidden()

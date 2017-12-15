@@ -9,7 +9,6 @@ import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto._
 import io.bunkitty.scifimmo.server.model._
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.server.typeclasses._
-import io.bunkitty.scifimmo.server.typeclasses.instances._
 import org.http4s.HttpService
 import org.http4s.dsl.Http4sDsl
 import io.circe.syntax._
@@ -32,7 +31,7 @@ case class AccountService(db: Database) extends Http4sDsl[IO]  {
         for {
           user <- db.runIO(userQuery)
           tokenToInsert =  AccessTokens.generateFor(user)
-          resultantToken <- DbIdentifiable[AccessToken].insertQuery(tokenToInsert)
+          resultantToken <- DbIdentifiable.insertQuery[AccessToken, AccessTokens](tokenToInsert)
           response <- Ok(AccessTokenDto.fromTokenDao(resultantToken))
         } yield response
       }
