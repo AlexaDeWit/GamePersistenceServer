@@ -8,6 +8,6 @@ import org.http4s.circe._
 
 @JsonCodec case class CreateCharacterRequest(name: String, species: String)
 
-object LoginRequest {
+object CreateCharacterRequest {
   implicit lazy val loginRequestJsonDecoder: EntityDecoder[IO, CreateCharacterRequest] = jsonOf
 }

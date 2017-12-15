@@ -6,6 +6,10 @@ import cats.effect.{Effect, IO}
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.server.model._
 import io.bunkitty.scifimmo.server.codecs.Characters._
+import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest
+import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest._
+import io.bunkitty.scifimmo.server.typeclasses._
+import io.bunkitty.scifimmo.server.typeclasses.instances._
 import org.http4s.AuthedService
 import slick.jdbc.PostgresProfile.api._
 
@@ -22,6 +26,16 @@ case class CharactersService(db: Database) {
         chars <- db.runIO[Seq[Character]](characters.filter(_.fkUserId === user.id).result)
         response <- Ok(chars.toList)
       } yield response
+    }
+    case request @ POST -> Root / "create" as user => {
+      request.req.decode[CreateCharacterRequest] { character =>
+        for {
+          userId <- IO(user.id.get)
+          character <- IO(Character(None, userId, character.name, character.species))
+          created <- DbIdentifiable[Character].insertQuery(character)
+          response <- Ok(created)
+        } yield response
+      }
     }
   }
 }
