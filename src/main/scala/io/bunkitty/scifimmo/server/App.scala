@@ -7,9 +7,9 @@ import io.bunkitty.scifimmo.server.services._
 import fs2._
 import cats.effect._
 import cats.syntax.either._
+import fs2.StreamApp.ExitCode
 import org.http4s.server.blaze.BlazeBuilder
 import org.http4s.server.middleware.GZip
-import org.http4s.util.{ExitCode, StreamApp}
 import slick.jdbc.PostgresProfile.api._
 
 import scala.util.{Failure, Success, Try}
@@ -17,7 +17,7 @@ import scala.util.{Failure, Success, Try}
 object App extends StreamApp[IO] {
   private val config = Config.config
   val applicationPrereqs: Either[String, ApplicationPrerequisites] = for {
-    conf <- config.leftMap(t => s"Could not load Config: Error was ${t}")
+    conf <- config.leftMap(t => s"Could not load Config: Error was $t")
     dbConf = conf.db
     db = Database.forURL(dbConf.url, dbConf.user, dbConf.password, null, dbConf.driver)
     authMiddleware = new Authentication(db).authMiddleware

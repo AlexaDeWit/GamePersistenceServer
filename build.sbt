@@ -9,6 +9,7 @@ val Http4sVersion = "0.18.0-M6"
 val LogbackVersion = "1.2.3"
 val circeVersion = "0.9.0-M2"
 val slickVersion = "3.2.1"
+val checklistVersion =
 
 addCompilerPlugin(
   "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full

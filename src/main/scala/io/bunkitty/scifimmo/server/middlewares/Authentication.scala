@@ -19,7 +19,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class Authentication(db: Database) extends Http4sDsl[IO] {
 
-  def retrieveUser: Kleisli[IO, BearerToken, User] = Kleisli(tokenString => {
+  def retrieveUser: Kleisli[IO, BasicToken, User] = Kleisli(tokenString => {
     val now = Timestamp.valueOf(LocalDateTime.now())
     val userFetchQuery = for {
       tokens <- TableQuery[AccessTokens] if tokens.token === tokenString.token && tokens.expiry > now
@@ -33,7 +33,7 @@ class Authentication(db: Database) extends Http4sDsl[IO] {
   val authUser: Kleisli[IO, Request[IO], Either[String, User]] = Kleisli({ request =>
     val message = for {
       header <- request.headers.get(Authorization).toRight("Couldn't find an Authorization header")
-      message <- BearerToken.extract(header.value)
+      message <- BasicToken.extract(header.value)
     } yield message
     message.traverse(retrieveUser.run)
   })
