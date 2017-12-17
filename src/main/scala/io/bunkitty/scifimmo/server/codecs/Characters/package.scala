@@ -13,9 +13,6 @@ package object Characters {
   implicit lazy val characterEncoder: Encoder[Character] = deriveEncoder[Character]
   implicit lazy val characterDecoder: Decoder[Character] = deriveDecoder[Character]
 
-  implicit lazy val characterSeqEncoder: Encoder[List[Character]] = deriveEncoder[List[Character]]
-  implicit lazy val characterSeqDecoder: Decoder[List[Character]] = deriveDecoder[List[Character]]
-
   implicit lazy val characterJsonEntity: EntityEncoder[IO, Character] = jsonEncoderOf[IO, Character]
-  implicit lazy val characterListJsonEntity: EntityEncoder[IO, List[Character]] = jsonEncoderOf[IO, List[Character]]
+  implicit lazy val characterListJsonEntity: EntityEncoder[IO, Seq[Character]] = jsonEncoderOf[IO, Seq[Character]]
 }

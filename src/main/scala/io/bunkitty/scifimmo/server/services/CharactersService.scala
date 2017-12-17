@@ -25,7 +25,7 @@ case class CharactersService(db: Database) {
     case GET -> Root as user => {
       for {
         chars <- db.runIO[Seq[Character]](characters.filter(_.fkUserId === user.id).result)
-        response <- Ok(chars.toList)
+        response <- Ok(chars)
       } yield response
     }
     case request @ POST -> Root / "create" as user => {
