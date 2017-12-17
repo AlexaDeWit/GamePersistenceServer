@@ -2,7 +2,7 @@ organization := "io.bunkitty"
 name := "Scifi MMO Server"
 version := "0.0.1-SNAPSHOT"
 scalaVersion := "2.12.3"
-scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions")
+scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions", "-Xfatal-warnings")
 assemblyJarName in assembly := "ScifiMmoServer.jar"
 
 val Http4sVersion = "0.18.0-M6"
