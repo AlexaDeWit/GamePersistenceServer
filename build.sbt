@@ -2,14 +2,13 @@ organization := "io.bunkitty"
 name := "Scifi MMO Server"
 version := "0.0.1-SNAPSHOT"
 scalaVersion := "2.12.3"
-scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions", "-Xfatal-warnings")
+scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions")
 assemblyJarName in assembly := "ScifiMmoServer.jar"
 
 val Http4sVersion = "0.18.0-M6"
 val LogbackVersion = "1.2.3"
 val circeVersion = "0.9.0-M2"
 val slickVersion = "3.2.1"
-val checklistVersion =
 
 addCompilerPlugin(
   "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full
