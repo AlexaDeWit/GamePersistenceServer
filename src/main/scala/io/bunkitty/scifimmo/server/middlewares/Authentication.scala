@@ -39,5 +39,5 @@ class Authentication(db: Database) extends Http4sDsl[IO] {
   })
 
   val onFailure: AuthedService[String, IO] = Kleisli((req: AuthedRequest[IO, String]) => OptionT.liftF(Forbidden(req.authInfo)))
-  val authMiddleware = AuthMiddleware(authUser, onFailure)
+  val authMiddleware: AuthMiddleware[IO, User] = AuthMiddleware(authUser, onFailure)
 }

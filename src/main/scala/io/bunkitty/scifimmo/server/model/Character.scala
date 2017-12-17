@@ -24,7 +24,7 @@ case class Character(id: Option[Long],
                      currentWillpower: Option[Float] = None,
                     )
 
-class Characters(tag: Tag) extends Table[Character](tag, "POSTGRES") {
+class Characters(tag: Tag) extends Table[Character](tag, "CHARACTERS") {
 
   def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
   def fkUserId = column[Long]("FK_USER_ID")
