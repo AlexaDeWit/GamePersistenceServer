@@ -19,14 +19,20 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class Authentication(db: Database) extends Http4sDsl[IO] {
 
-  def retrieveUser: Kleisli[IO, BasicToken, User] = Kleisli(tokenString => {
-    val now = Timestamp.valueOf(LocalDateTime.now())
-    val userFetchQuery = for {
-      tokens <- TableQuery[AccessTokens] if tokens.token === tokenString.token && tokens.expiry > now
+  lazy val compiledUserQuery = Compiled(rawUserFetchQuery _)
+
+  def rawUserFetchQuery(tokenString: Rep[String], time: Rep[Timestamp]) = {
+    val baseQuery = for {
+      tokens <- TableQuery[AccessTokens] if tokens.token === tokenString && tokens.expiry > time
       users <- TableQuery[Users] if tokens.fkUserId === users.id
     } yield users
+    baseQuery.take(1)
+  }
+
+  def retrieveUser: Kleisli[IO, BasicToken, User] = Kleisli(tokenString => {
+    val now = Timestamp.valueOf(LocalDateTime.now())
     for {
-      user <- db.runIO[User](userFetchQuery.take(1).result.head)
+      user <- db.runIO[User](compiledUserQuery(tokenString.token, now).result.head)
     } yield user
   })
 

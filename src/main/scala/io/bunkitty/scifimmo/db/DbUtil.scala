@@ -3,6 +3,7 @@ package io.bunkitty.scifimmo.db
 import cats.Always
 import cats.effect.IO
 import slick.jdbc.PostgresProfile.api._
+import slick.lifted.{AppliedCompiledFunction}
 
 import scala.concurrent.ExecutionContext
 
