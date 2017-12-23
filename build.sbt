@@ -1,7 +1,7 @@
 organization := "io.bunkitty"
 name := "Scifi MMO Server"
 version := "0.0.1-SNAPSHOT"
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.4"
 scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions")
 assemblyJarName in assembly := "ScifiMmoServer.jar"
 
