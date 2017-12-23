@@ -21,7 +21,7 @@ class Authentication(db: Database) extends Http4sDsl[IO] {
 
   lazy val compiledUserQuery = Compiled(rawUserFetchQuery _)
 
-  def rawUserFetchQuery(tokenString: Rep[String], time: Rep[Timestamp]) = {
+  private def rawUserFetchQuery(tokenString: Rep[String], time: Rep[Timestamp]) = {
     val baseQuery = for {
       tokens <- TableQuery[AccessTokens] if tokens.token === tokenString && tokens.expiry > time
       users <- TableQuery[Users] if tokens.fkUserId === users.id

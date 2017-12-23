@@ -17,13 +17,21 @@ case class SessionsService(db: Database) extends Http4sDsl[IO] {
 
   private implicit lazy val databaseInstance: Database = db
 
+  lazy val compiledUserQuery = Compiled(rawUserQuery _)
+
+  private def rawUserQuery(email: Rep[String]) = {
+    val baseQuery = for {
+      users <- TableQuery[Users] if users.email === email
+    } yield users
+    baseQuery.take(1)
+  }
+
   def route(): HttpService[IO] = HttpService {
     case request @ POST -> Root / "login" => {
       request.decode[LoginRequest] { loginRequest =>
-        val users = TableQuery[Users]
         val tokens = TableQuery[AccessTokens]
         for {
-          user <- db.runIO[User](users.filter(_.email === loginRequest.email).take(1).result.head)
+          user <- db.runIO[User](compiledUserQuery(loginRequest.email).result.head)
           passwordValidation <- IO(user.password.verify(loginRequest.rawPassword))
           response <- if(passwordValidation) {
             user.id match {
