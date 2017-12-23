@@ -21,17 +21,20 @@ case class CharactersService(db: Database) {
   private implicit lazy val dbInstance: Database = db
   private lazy val characters = TableQuery[Characters]
 
+  lazy val charsQuery = Compiled(rawCharsQuery _)
+  private def rawCharsQuery(userId: Rep[Long]) = characters.filter(_.fkUserId === userId)
+
   def route(): AuthedService[User, IO] = AuthedService {
     case GET -> Root as user => {
       for {
-        chars <- db.runIO[Seq[Character]](characters.filter(_.fkUserId === user.id).result)
+        chars <- user.ioWithId(id => db.runIO[Seq[Character]](charsQuery(id).result))
         response <- Ok(chars)
       } yield response
     }
     case request @ POST -> Root / "create" as user => {
       request.req.decode[CreateCharacterRequest] { character =>
         for {
-          userId <- user.id.map(id => IO(id)).getOrElse(IO.raiseError(OptionWithoutContentsException("Could not retrieve user ID.")))
+          userId <- user.ioWithId(id => IO(id))
           characterToInsert = Character(None, userId, character.name, character.species)
           created <- DbIdentifiable.insertQuery[Character, Characters](characterToInsert)
           response <- Ok(created)
