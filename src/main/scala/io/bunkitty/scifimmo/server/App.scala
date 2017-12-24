@@ -22,7 +22,7 @@ object App extends StreamApp[IO] {
     transactor = Transactor.fromDriverManager[IO](
       "org.postgresql.Driver", s"jdbc:postgresql:${dbConf.schema}", dbConf.user, dbConf.password
     )
-    authMiddleware = new Authentication(db, transactor).authMiddleware
+    authMiddleware = new Authentication(transactor).authMiddleware
   } yield ApplicationPrerequisites(db, authMiddleware, transactor)
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {

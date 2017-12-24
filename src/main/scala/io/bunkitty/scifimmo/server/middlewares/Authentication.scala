@@ -6,9 +6,11 @@ import java.time.LocalDateTime
 import cats.data._
 import cats.effect._
 import cats.implicits._
-import doobie.util.transactor.Transactor
+import doobie._
+import doobie.implicits._
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.model._
+import io.bunkitty.scifimmo.queries.UserQueries
 import io.bunkitty.scifimmo.throwables.InvalidAuthTokenException
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
@@ -18,23 +20,13 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class Authentication(db: Database, transactor: Transactor[IO]) extends Http4sDsl[IO] {
+class Authentication(transactor: Transactor[IO]) extends Http4sDsl[IO] {
 
-  lazy val compiledUserQuery = Compiled(rawUserFetchQuery _)
-
-  private def rawUserFetchQuery(tokenString: Rep[String], time: Rep[Timestamp]) = {
-    val baseQuery = for {
-      tokens <- TableQuery[AccessTokens] if tokens.token === tokenString && tokens.expiry > time
-      users <- TableQuery[Users] if tokens.fkUserId === users.id
-    } yield users
-    baseQuery.take(1)
-  }
-
-  def retrieveUser: Kleisli[IO, BasicToken, User] = Kleisli(tokenString => {
+  def retrieveUser: Kleisli[IO, BasicToken, Either[String, User]] = Kleisli(tokenString => {
     val now = Timestamp.valueOf(LocalDateTime.now())
     for {
-      user <- db.runIO[User](compiledUserQuery(tokenString.token, now).result.head)
-    } yield user
+      user <- UserQueries.findUserFromToken(tokenString.token, now).transact(transactor)
+    } yield Either.fromOption(user, "No user was found for the provided auth token.")
   })
 
   val authUser: Kleisli[IO, Request[IO], Either[String, User]] = Kleisli({ request =>
@@ -42,7 +34,7 @@ class Authentication(db: Database, transactor: Transactor[IO]) extends Http4sDsl
       header <- request.headers.get(Authorization).toRight("Couldn't find an Authorization header")
       message <- BasicToken.extract(header.value)
     } yield message
-    message.traverse(retrieveUser.run)
+    message.fold(s => IO(Left(s)), t => retrieveUser(t))
   })
 
   val onFailure: AuthedService[String, IO] = Kleisli((req: AuthedRequest[IO, String]) => OptionT.liftF(Forbidden(req.authInfo)))
