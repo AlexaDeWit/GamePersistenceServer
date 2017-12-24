@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 import cats.data._
 import cats.effect._
 import cats.implicits._
+import doobie.util.transactor.Transactor
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.throwables.InvalidAuthTokenException
@@ -17,7 +18,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-class Authentication(db: Database) extends Http4sDsl[IO] {
+class Authentication(db: Database, transactor: Transactor[IO]) extends Http4sDsl[IO] {
 
   lazy val compiledUserQuery = Compiled(rawUserFetchQuery _)
 

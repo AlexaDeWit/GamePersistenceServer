@@ -22,14 +22,14 @@ object App extends StreamApp[IO] {
     transactor = Transactor.fromDriverManager[IO](
       "org.postgresql.Driver", s"jdbc:postgresql:${dbConf.schema}", dbConf.user, dbConf.password
     )
-    authMiddleware = new Authentication(db).authMiddleware
+    authMiddleware = new Authentication(db, transactor).authMiddleware
   } yield ApplicationPrerequisites(db, authMiddleware, transactor)
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     applicationPrereqs match {
       case Right(prereqs) => {
         val heartbeatService = HeartbeatService().route()
-        val accountService = AccountService(prereqs.db).route()
+        val accountService = AccountService(prereqs.db, prereqs.transactor).route()
         val sessionsService = SessionsService(prereqs.db).route()
         val charactersService = prereqs.authMiddleware(CharactersService(prereqs.db).route())
         BlazeBuilder[IO]

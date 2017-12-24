@@ -1,6 +1,7 @@
 package io.bunkitty.scifimmo.server.services
 
 import cats.effect.{Effect, IO}
+import doobie.util.transactor.Transactor
 import io.bunkitty.scifimmo.argon2.ArgonScala
 import io.bunkitty.scifimmo.server.dto.request.accounts.RegistrationRequest
 import io.bunkitty.scifimmo.server.dto.request.accounts.RegistrationRequest._
@@ -16,7 +17,7 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-case class AccountService(db: Database) extends Http4sDsl[IO]  {
+case class AccountService(db: Database, transactor: Transactor[IO]) extends Http4sDsl[IO]  {
 
   implicit lazy val databaseInstance: Database = db
 
