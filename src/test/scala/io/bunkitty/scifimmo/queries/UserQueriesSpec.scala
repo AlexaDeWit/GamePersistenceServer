@@ -1,5 +1,8 @@
 package io.bunkitty.scifimmo.queries
 
+import java.sql.Timestamp
+import java.time.LocalDateTime
+
 import doobie._
 import doobie.implicits._
 import doobie.scalatest._
@@ -14,8 +17,13 @@ class UserQueriesSpec extends FunSuite with Matchers with IOChecker {
   val yolo = transactor.yolo
   import yolo._
 
-  test("user from tokens") {
+  test("user from id") {
     check(findUserQuery(1))
   }
+
+  test("user from token string"){
+    check(findUserFromTokenQuery("fdasdfas", Timestamp.valueOf(LocalDateTime.now())))
+  }
+
 
 }

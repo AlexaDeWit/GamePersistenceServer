@@ -13,6 +13,8 @@ object UserQueries {
   def findUserQuery(id: Long): Query0[User] =
     sql"""SELECT * FROM "USERS" WHERE "ID" = $id;""".query[User]
 
-  def findUserFromToken(token: String, timeToCheckValidity: Timestamp) =
-    sql"""SELECT U.ID, U.EMAIL, U.PASSWORD_DIGEST, U.USERNAME, U.VALIDATED_EMAIL FROM USERS U INNER JOIN SESSION_TOKENS T ON ( USERS.ID = SESSION_TOKENS.FK_USER_ID ) WHERE T.TOKEN = $token AND T.EXPIRATION > $timeToCheckValidity;""".query[User].option
+  def findUserFromToken(token: String, timeToCheckValidity: Timestamp): ConnectionIO[Option[User]] = findUserFromTokenQuery(token, timeToCheckValidity).option
+
+  def findUserFromTokenQuery(token: String, timeToCheckValidity: Timestamp): Query0[User] =
+    sql"""SELECT U."ID", U."EMAIL", U."PASSWORD_DIGEST", U."USERNAME", U."VALIDATED_EMAIL" FROM "USERS" U INNER JOIN "SESSION_TOKENS" T ON ( U."ID" = T."FK_USER_ID" ) WHERE T."TOKEN" = $token AND T."EXPIRATION" > $timeToCheckValidity;""".query[User]
 }
