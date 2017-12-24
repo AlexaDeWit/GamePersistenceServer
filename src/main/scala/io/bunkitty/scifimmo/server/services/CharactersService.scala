@@ -4,7 +4,7 @@ import org.http4s._
 import org.http4s.dsl.io._
 import cats.effect.{Effect, IO}
 import io.bunkitty.scifimmo.db.DbUtil._
-import io.bunkitty.scifimmo.server.model._
+import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.server.codecs.Characters._
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest._

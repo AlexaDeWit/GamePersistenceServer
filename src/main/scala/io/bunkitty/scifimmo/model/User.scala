@@ -1,4 +1,4 @@
-package io.bunkitty.scifimmo.server.model
+package io.bunkitty.scifimmo.model
 
 import cats.effect.IO
 import slick.lifted.Tag

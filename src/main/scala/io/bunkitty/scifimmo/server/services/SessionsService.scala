@@ -7,7 +7,7 @@ import org.http4s.dsl.Http4sDsl
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
-import io.bunkitty.scifimmo.server.model._
+import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.server.typeclasses._
 import slick.jdbc.PostgresProfile.api._
 

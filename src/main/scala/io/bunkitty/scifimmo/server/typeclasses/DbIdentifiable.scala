@@ -2,7 +2,7 @@ package io.bunkitty.scifimmo.server.typeclasses
 
 import cats.effect.IO
 import io.bunkitty.scifimmo.db.DbUtil._
-import io.bunkitty.scifimmo.server.model.{AccessToken, AccessTokens, Character, Characters}
+import io.bunkitty.scifimmo.model.{AccessToken, AccessTokens, Character, Characters}
 import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext

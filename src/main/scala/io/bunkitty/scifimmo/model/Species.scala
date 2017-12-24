@@ -1,4 +1,4 @@
-package io.bunkitty.scifimmo.server.model
+package io.bunkitty.scifimmo.model
 
 object Species {
   lazy val possibleNames = Set("Human", "Manari", "Serak")

@@ -1,4 +1,4 @@
-package io.bunkitty.scifimmo.server.model
+package io.bunkitty.scifimmo.model
 
 case class BasicToken(token: String) {
 

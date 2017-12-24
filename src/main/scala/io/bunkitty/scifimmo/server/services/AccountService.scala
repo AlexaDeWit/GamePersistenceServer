@@ -6,7 +6,7 @@ import io.bunkitty.scifimmo.server.dto.request.accounts.RegistrationRequest
 import io.bunkitty.scifimmo.server.dto.request.accounts.RegistrationRequest._
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto._
-import io.bunkitty.scifimmo.server.model._
+import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.server.typeclasses._
 import org.http4s.HttpService

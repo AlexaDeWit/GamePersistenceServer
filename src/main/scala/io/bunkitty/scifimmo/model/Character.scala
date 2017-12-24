@@ -1,4 +1,4 @@
-package io.bunkitty.scifimmo.server.model
+package io.bunkitty.scifimmo.model
 
 import io.circe.generic.JsonCodec
 import io.circe.generic.auto._

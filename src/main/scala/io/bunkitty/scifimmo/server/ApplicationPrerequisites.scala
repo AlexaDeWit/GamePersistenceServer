@@ -2,7 +2,7 @@ package io.bunkitty.scifimmo.server
 
 import cats.effect.IO
 import io.bunkitty.scifimmo.server.ApplicationPrerequisites.HeaderAuthMiddleware
-import io.bunkitty.scifimmo.server.model.User
+import io.bunkitty.scifimmo.model.User
 import org.http4s.server.AuthMiddleware
 import slick.jdbc.PostgresProfile.api._
 

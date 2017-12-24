@@ -1,4 +1,4 @@
-package io.bunkitty.scifimmo.server.model
+package io.bunkitty.scifimmo.model
 
 import java.sql.Timestamp
 import java.time.LocalDateTime

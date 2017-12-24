@@ -1,4 +1,4 @@
-package io.bunkitty.scifimmo.server.model
+package io.bunkitty.scifimmo.model
 
 import slick.lifted.Tag
 import slick.jdbc.PostgresProfile.api._

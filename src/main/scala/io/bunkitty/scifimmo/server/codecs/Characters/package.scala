@@ -5,7 +5,7 @@ import io.circe._
 import io.circe.generic.semiauto._
 import org.http4s.circe._
 import org.http4s.dsl.io._
-import io.bunkitty.scifimmo.server.model.Character
+import io.bunkitty.scifimmo.model.Character
 import org.http4s.EntityEncoder
 
 package object Characters {

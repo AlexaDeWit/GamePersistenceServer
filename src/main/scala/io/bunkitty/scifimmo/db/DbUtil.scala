@@ -3,13 +3,12 @@ package io.bunkitty.scifimmo.db
 import cats.Always
 import cats.effect.IO
 import slick.jdbc.PostgresProfile.api._
-import slick.lifted.{AppliedCompiledFunction}
 
 import scala.concurrent.ExecutionContext
 
 object DbUtil {
 
   implicit class DBOps(db: Database) {
-    def runIO[R](query: DBIOAction[R, NoStream, Nothing])(implicit ec: ExecutionContext): IO[R] = IO.fromFuture(Always(db.run(query)))
+    def runIO[R](query: DBIOAction[R, NoStream, Nothing])(implicit ec: ExecutionContext): IO[R] = IO.fromFuture(IO(db.run(query)))
   }
 }
