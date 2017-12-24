@@ -7,12 +7,11 @@ import io.bunkitty.scifimmo.server.services._
 import fs2._
 import cats.effect._
 import cats.syntax.either._
+import doobie.util.transactor.Transactor
 import fs2.StreamApp.ExitCode
 import org.http4s.server.blaze.BlazeBuilder
-import org.http4s.server.middleware.GZip
 import slick.jdbc.PostgresProfile.api._
 
-import scala.util.{Failure, Success, Try}
 
 object App extends StreamApp[IO] {
   private val config = Config.config
@@ -20,8 +19,11 @@ object App extends StreamApp[IO] {
     conf <- config.leftMap(t => s"Could not load Config: Error was $t")
     dbConf = conf.db
     db = Database.forURL(dbConf.url, dbConf.user, dbConf.password, null, dbConf.driver)
+    transactor = Transactor.fromDriverManager[IO](
+      "org.postgresql.Driver", s"jdbc:postgresql:${dbConf.schema}", dbConf.user, dbConf.password
+    )
     authMiddleware = new Authentication(db).authMiddleware
-  } yield ApplicationPrerequisites(db, authMiddleware)
+  } yield ApplicationPrerequisites(db, authMiddleware, transactor)
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     applicationPrereqs match {
