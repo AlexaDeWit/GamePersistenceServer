@@ -10,5 +10,4 @@ object AccessTokenQueries {
 
   def createAccessTokenQuery(token: AccessToken): Update0 =
     sql"""insert into "SESSION_TOKENS" ("FK_USER_ID", "TOKEN", "EXPIRATION") values (${token.fkUserId}, ${token.token}, ${token.expiry})""".update
-
 }
