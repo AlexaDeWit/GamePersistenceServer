@@ -14,8 +14,6 @@ import org.scalatest._
 class UserQueriesSpec extends FunSuite with Matchers with IOChecker {
 
   val transactor = TestResources.postgresTransactor
-  val yolo = transactor.yolo
-  import yolo._
 
   test("user from id") {
     check(findUserQuery(1))
