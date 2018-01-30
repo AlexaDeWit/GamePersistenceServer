@@ -6,6 +6,8 @@ import de.mkammerer.argon2.{Argon2, Argon2Factory}
 
 case class HashedPassword private(underlying: String) {
   def verify(rawPassword: RawPassword): Boolean = ArgonScala.verify(rawPassword, this)
+
+  override def toString: RawPassword = underlying
 }
 
 object HashedPassword {
