@@ -22,12 +22,6 @@ trait DbIdentifiable[A, B <: Table[A]] {
 }
 
 object DbIdentifiable {
-  implicit val accessTokenDbIdentifiable: DbIdentifiable[AccessToken, AccessTokens] =
-    new DbIdentifiable[AccessToken, AccessTokens] {
-      val table = TableQuery[AccessTokens]
-      def getDbId(accessToken: AccessTokens): Rep[Long] = accessToken.id
-      def withItemId(item: AccessToken, id: Long): AccessToken = item.copy(id = Option(id))
-    }
 
   implicit val characterDbIdentifiable: DbIdentifiable[Character, Characters] =
     new DbIdentifiable[Character, Characters] {
