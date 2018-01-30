@@ -1,44 +1,31 @@
 package io.bunkitty.scifimmo.server.services
 
-import cats.effect.{Effect, IO}
-import io.bunkitty.scifimmo.argon2.{ArgonScala, HashedPassword}
-import org.http4s.HttpService
-import org.http4s.dsl.Http4sDsl
-import io.bunkitty.scifimmo.db.DbUtil._
+import cats.effect.IO
+import doobie._
+import doobie.implicits._
+import io.bunkitty.scifimmo.io.IOUtil._
+import io.bunkitty.scifimmo.model._
+import io.bunkitty.scifimmo.queries.{AccessTokenQueries, UserQueries}
 import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
-import io.bunkitty.scifimmo.model._
-import io.bunkitty.scifimmo.server.typeclasses._
-import slick.jdbc.PostgresProfile.api._
+import org.http4s.HttpService
+import org.http4s.dsl.Http4sDsl
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
-case class SessionsService(db: Database) extends Http4sDsl[IO] {
-
-  private implicit lazy val databaseInstance: Database = db
-
-  lazy val compiledUserQuery = Compiled(rawUserQuery _)
-
-  private def rawUserQuery(email: Rep[String]) = {
-    val baseQuery = for {
-      users <- TableQuery[Users] if users.email === email
-    } yield users
-    baseQuery.take(1)
-  }
+case class SessionsService(transactor: Transactor[IO]) extends Http4sDsl[IO] {
 
   def route(): HttpService[IO] = HttpService {
     case request @ POST -> Root / "login" => {
       request.decode[LoginRequest] { loginRequest =>
-        val tokens = TableQuery[AccessTokens]
         for {
-          user <- db.runIO[User](compiledUserQuery(loginRequest.email).result.head)
+          userOpt <- UserQueries.findUserByEmail(loginRequest.email).transact(transactor)
+          user <- userOpt.ioResult(s"Could not retrieve user with email ${loginRequest.email}")
           passwordValidation <- IO(user.password.verify(loginRequest.rawPassword))
           response <- if(passwordValidation) {
             user.id match {
               case Some(id) => {
                 val tokenToInsert = AccessTokens.generateFor(id)
-                val resultantToken = DbIdentifiable.insertQuery[AccessToken, AccessTokens](tokenToInsert)
-                resultantToken.flatMap(token => Ok(AccessTokenDto.fromTokenDao(token)))
+                val resultantTokenId =  AccessTokenQueries.insertAccessToken(tokenToInsert).transact(transactor)
+                resultantTokenId.flatMap(tokenId => Ok(AccessTokenDto.fromTokenDao(tokenToInsert.copy(id = Some(tokenId)))))
               }
               case _ => Forbidden()
             }

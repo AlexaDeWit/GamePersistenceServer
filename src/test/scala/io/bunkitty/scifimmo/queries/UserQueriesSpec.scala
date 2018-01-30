@@ -28,5 +28,9 @@ class UserQueriesSpec extends FunSuite with Matchers with IOChecker {
     check(insertUserQuery(User(None, "Bah", HashedPassword.unsafeWrapString("foo"), "Cats")))
   }
 
+  test("user from email string"){
+    check(findUserByEmailQuery("what"))
+  }
+
 
 }

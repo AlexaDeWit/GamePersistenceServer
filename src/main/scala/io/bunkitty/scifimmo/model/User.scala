@@ -3,7 +3,6 @@ package io.bunkitty.scifimmo.model
 import cats.effect.IO
 import slick.lifted.Tag
 import slick.jdbc.PostgresProfile.api._
-import io.bunkitty.scifimmo.server.codecs.Characters
 import io.bunkitty.scifimmo.server.db.mappings.HashedPasswordMapping._
 import io.bunkitty.scifimmo.argon2.HashedPassword
 import io.bunkitty.scifimmo.throwables.OptionWithoutContentsException

@@ -13,6 +13,12 @@ object UserQueries {
   def findUserQuery(id: Long): Query0[User] =
     sql"""SELECT * FROM "USERS" WHERE "ID" = $id;""".query[User]
 
+  def findUserByEmail(email: String) =
+    findUserByEmailQuery(email).option
+
+  def findUserByEmailQuery(email: String): Query0[User] =
+    sql"""SELECT * FROM "USERS" WHERE "EMAIL" = $email LIMIT 1""".query[User]
+
   def findUserFromToken(token: String, timeToCheckValidity: Timestamp): ConnectionIO[Option[User]] = findUserFromTokenQuery(token, timeToCheckValidity).option
 
   def findUserFromTokenQuery(token: String, timeToCheckValidity: Timestamp): Query0[User] =
