@@ -29,7 +29,7 @@ object App extends StreamApp[IO] {
     applicationPrereqs match {
       case Right(prereqs) => {
         val heartbeatService = HeartbeatService().route()
-        val accountService = AccountService(prereqs.db, prereqs.transactor).route()
+        val accountService = AccountService(prereqs.transactor).route()
         val sessionsService = SessionsService(prereqs.db).route()
         val charactersService = prereqs.authMiddleware(CharactersService(prereqs.db).route())
         BlazeBuilder[IO]

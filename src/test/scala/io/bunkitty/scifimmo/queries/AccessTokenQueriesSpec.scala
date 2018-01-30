@@ -17,6 +17,6 @@ class AccessTokenQueriesSpec extends FunSuite with Matchers with IOChecker {
 
   test("Access Token Insertion Query") {
     val candidate = AccessToken(None, 1, Timestamp.valueOf(LocalDateTime.now().plusDays(7)), UUID.randomUUID().toString)
-    check(createAccessTokenQuery(candidate))
+    check(insertAccessTokenQuery(candidate))
   }
 }
