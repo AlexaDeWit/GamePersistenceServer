@@ -30,7 +30,7 @@ libraryDependencies ++= Seq(
   "org.tpolecat"          %% "doobie-scalatest"     % doobieVersion,
   "com.github.mpilquist"  %% "simulacrum"           % "0.11.0",
   "de.mkammerer"          %  "argon2-jvm"           % "2.2",
-  "com.github.pureconfig" %% "pureconfig"           % "0.8.0",
+  "com.github.pureconfig" %% "pureconfig"           % "0.9.0",
   "org.postgresql"        %  "postgresql"           % "42.1.4",
   "org.scalatest"         %% "scalatest"            % "3.0.4"         % "test"
 )
