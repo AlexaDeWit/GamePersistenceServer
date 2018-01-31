@@ -8,7 +8,6 @@ import cats.effect._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
-import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.queries.UserQueries
 import io.bunkitty.scifimmo.throwables.InvalidAuthTokenException
@@ -16,9 +15,6 @@ import org.http4s._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Authorization
 import org.http4s.server.AuthMiddleware
-import slick.jdbc.PostgresProfile.api._
-
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class Authentication(transactor: Transactor[IO]) extends Http4sDsl[IO] {
 

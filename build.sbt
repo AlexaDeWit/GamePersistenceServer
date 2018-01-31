@@ -8,7 +8,6 @@ assemblyJarName in assembly := "ScifiMmoServer.jar"
 val Http4sVersion = "0.18.0-M7"
 val LogbackVersion = "1.2.3"
 val circeVersion = "0.9.0-M3"
-val slickVersion = "3.2.1"
 val doobieVersion = "0.5.0-M11"
 
 addCompilerPlugin(
@@ -23,8 +22,6 @@ libraryDependencies ++= Seq(
   "io.circe"              %% "circe-parser"         % circeVersion,
   "io.circe"              %% "circe-generic"        % circeVersion,
   "io.circe"              %% "circe-generic-extras" % circeVersion,
-  "com.typesafe.slick"    %% "slick-hikaricp"       % slickVersion,
-  "com.typesafe.slick"    %% "slick"                % slickVersion,
   "org.tpolecat"          %% "doobie-core"          % doobieVersion,
   "org.tpolecat"          %% "doobie-postgres"      % doobieVersion,
   "org.tpolecat"          %% "doobie-scalatest"     % doobieVersion,

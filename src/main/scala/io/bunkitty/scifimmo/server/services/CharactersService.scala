@@ -5,22 +5,14 @@ import org.http4s.dsl.io._
 import cats.effect.IO
 import doobie._
 import doobie.implicits._
-import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.queries.CharacterQueries
 import io.bunkitty.scifimmo.server.codecs.Characters._
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest._
-import io.bunkitty.scifimmo.server.typeclasses.DbIdentifiable
-import io.bunkitty.scifimmo.server.typeclasses.DbIdentifiable._
 import org.http4s.AuthedService
-import slick.jdbc.PostgresProfile.api._
 
-import scala.concurrent.ExecutionContext.Implicits.global
-
-case class CharactersService(db: Database, transactor: Transactor[IO]) {
-
-  private implicit lazy val dbInstance: Database = db
+case class CharactersService(transactor: Transactor[IO]) {
 
   def route(): AuthedService[User, IO] = AuthedService {
     case GET -> Root as user => {
@@ -34,8 +26,8 @@ case class CharactersService(db: Database, transactor: Transactor[IO]) {
         for {
           userId <- user.ioWithId(id => IO(id))
           characterToInsert = Character(None, userId, character.name, character.species)
-          created <- DbIdentifiable.insertQuery[Character, Characters](characterToInsert)
-          response <- Ok(created)
+          createdId <- CharacterQueries.insertCharacter(characterToInsert).transact(transactor)
+          response <- Ok(characterToInsert.copy(id = Some(createdId)))
         } yield response
       }
     }
