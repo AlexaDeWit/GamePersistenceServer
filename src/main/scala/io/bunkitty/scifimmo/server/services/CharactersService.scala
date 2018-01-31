@@ -3,8 +3,11 @@ package io.bunkitty.scifimmo.server.services
 import org.http4s._
 import org.http4s.dsl.io._
 import cats.effect.IO
+import doobie._
+import doobie.implicits._
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.model._
+import io.bunkitty.scifimmo.queries.CharacterQueries
 import io.bunkitty.scifimmo.server.codecs.Characters._
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest._
@@ -15,18 +18,14 @@ import slick.jdbc.PostgresProfile.api._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
-case class CharactersService(db: Database) {
+case class CharactersService(db: Database, transactor: Transactor[IO]) {
 
   private implicit lazy val dbInstance: Database = db
-  private lazy val characters = TableQuery[Characters]
-
-  lazy val charsQuery = Compiled(rawCharsQuery _)
-  private def rawCharsQuery(userId: Rep[Long]) = characters.filter(_.fkUserId === userId)
 
   def route(): AuthedService[User, IO] = AuthedService {
     case GET -> Root as user => {
       for {
-        chars <- user.ioWithId(id => db.runIO[Seq[Character]](charsQuery(id).result))
+        chars <- user.ioWithId(id => CharacterQueries.findCharactersForUser(id).transact(transactor))
         response <- Ok(chars)
       } yield response
     }

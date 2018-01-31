@@ -14,4 +14,8 @@ class CharacterQueriesSpec extends FunSuite with Matchers with IOChecker {
     check(CharacterQueries.findCharacterQuery(1))
   }
 
+  test("characters from user id"){
+    check(CharacterQueries.findCharactersForUserQuery(1))
+  }
+
 }

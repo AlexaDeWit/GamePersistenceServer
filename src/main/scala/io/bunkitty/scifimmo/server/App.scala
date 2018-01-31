@@ -31,7 +31,7 @@ object App extends StreamApp[IO] {
         val heartbeatService = HeartbeatService().route()
         val accountService = AccountService(prereqs.transactor).route()
         val sessionsService = SessionsService(prereqs.transactor).route()
-        val charactersService = prereqs.authMiddleware(CharactersService(prereqs.db).route())
+        val charactersService = prereqs.authMiddleware(CharactersService(prereqs.db, prereqs.transactor).route())
         BlazeBuilder[IO]
           .bindHttp(8080, "0.0.0.0")
           .mountService(heartbeatService,"/heartbeats")
