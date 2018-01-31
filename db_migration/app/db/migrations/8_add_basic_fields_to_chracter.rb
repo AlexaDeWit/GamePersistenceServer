@@ -4,15 +4,15 @@ Sequel.migration do
       add_column :LOCATION_X, Integer
       add_column :LOCATION_Y, Integer
       add_column :LOCATION_Z, Integer
-      add_column :CURRENT_HEALTH, Float
-      add_column :CURRENT_TOUGHNESS, Float
-      add_column :CURRENT_CONSTITUTION, Float
-      add_column :CURRENT_STAMINA, Float
-      add_column :CURRENT_ENDURANCE, Float
-      add_column :CURRENT_QUICKNESS, Float
-      add_column :CURRENT_FOCUS, Float
-      add_column :CURRENT_CLARITY, Float
-      add_column :CURRENT_WILLPOWER, Float
+      add_column :CURRENT_HEALTH, 'float4'
+      add_column :CURRENT_TOUGHNESS, 'float4'
+      add_column :CURRENT_CONSTITUTION, 'float4'
+      add_column :CURRENT_STAMINA, 'float4'
+      add_column :CURRENT_ENDURANCE, 'float4'
+      add_column :CURRENT_QUICKNESS, 'float4'
+      add_column :CURRENT_FOCUS, 'float4'
+      add_column :CURRENT_CLARITY, 'float4'
+      add_column :CURRENT_WILLPOWER, 'float4'
     end
   end
   down do

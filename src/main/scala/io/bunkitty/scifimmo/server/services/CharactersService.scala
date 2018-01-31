@@ -2,7 +2,7 @@ package io.bunkitty.scifimmo.server.services
 
 import org.http4s._
 import org.http4s.dsl.io._
-import cats.effect.{Effect, IO}
+import cats.effect.IO
 import io.bunkitty.scifimmo.db.DbUtil._
 import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.server.codecs.Characters._
@@ -10,7 +10,6 @@ import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterReques
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest._
 import io.bunkitty.scifimmo.server.typeclasses.DbIdentifiable
 import io.bunkitty.scifimmo.server.typeclasses.DbIdentifiable._
-import io.bunkitty.scifimmo.throwables.OptionWithoutContentsException
 import org.http4s.AuthedService
 import slick.jdbc.PostgresProfile.api._
 

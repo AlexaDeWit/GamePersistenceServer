@@ -1,9 +1,9 @@
 Sequel.migration do
   up do
     alter_table(:CHARACTERS) do
-      set_column_type :LOCATION_X, Float
-      set_column_type :LOCATION_Y, Float
-      set_column_type :LOCATION_Z, Float
+      set_column_type :LOCATION_X, 'float4'
+      set_column_type :LOCATION_Y, 'float4'
+      set_column_type :LOCATION_Z, 'float4'
     end
   end
   down do
