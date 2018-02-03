@@ -30,4 +30,9 @@ case class JwtService(private val key: String) {
     raw.flatMap(json => json.as[R](decoder).fold(IO.raiseError, decoded => IO(decoded)))
   }
 
+  def sign[R](payload: R, encoder: Encoder[R]): IO[String] = {
+    val message = payload.asJson(encoder).toString()
+    sign(message)
+  }
+
 }

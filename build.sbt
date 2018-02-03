@@ -23,6 +23,7 @@ libraryDependencies ++= Seq(
   "io.circe"              %% "circe-parser"         % circeVersion,
   "io.circe"              %% "circe-generic"        % circeVersion,
   "io.circe"              %% "circe-generic-extras" % circeVersion,
+  "io.circe"              %% "circe-literal"        % circeVersion,
   "org.tpolecat"          %% "doobie-core"          % doobieVersion,
   "org.tpolecat"          %% "doobie-postgres"      % doobieVersion,
   "org.tpolecat"          %% "doobie-scalatest"     % doobieVersion,
