@@ -4,6 +4,7 @@ package io.bunkitty.scifimmo.server
 import io.bunkitty.scifimmo.server.config.{ApplicationConfigurationException, Config}
 import io.bunkitty.scifimmo.server.middlewares.Authentication
 import io.bunkitty.scifimmo.server.services._
+import io.bunkitty.scifimmo.jwt.HmacSha256
 import fs2._
 import cats.effect._
 import cats.syntax.either._
@@ -17,18 +18,20 @@ object App extends StreamApp[IO] {
   val applicationPrereqs: Either[String, ApplicationPrerequisites] = for {
     conf <- config.leftMap(t => s"Could not load Config: Error was $t")
     dbConf = conf.db
+    jwtConf = conf.jwt
     transactor = Transactor.fromDriverManager[IO](
       "org.postgresql.Driver", s"jdbc:postgresql:${dbConf.schema}", dbConf.user, dbConf.password
     )
-    authMiddleware = new Authentication(transactor).authMiddleware
-  } yield ApplicationPrerequisites(authMiddleware, transactor)
+    hmacService = HmacSha256(jwtConf.secret)
+    authMiddleware = Authentication(transactor, hmacService).authMiddleware
+  } yield ApplicationPrerequisites(authMiddleware, transactor, hmacService)
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     applicationPrereqs match {
       case Right(prereqs) => {
         val heartbeatService = HeartbeatService().route()
         val accountService = AccountService(prereqs.transactor).route()
-        val sessionsService = SessionsService(prereqs.transactor).route()
+        val sessionsService = SessionsService(prereqs.transactor, prereqs.hmacService).route()
         val charactersService = prereqs.authMiddleware(CharactersService(prereqs.transactor).route())
         BlazeBuilder[IO]
           .bindHttp(8080, "0.0.0.0")

@@ -9,7 +9,6 @@ object Config {
 
 case class DBConfig(url: String, driver: String, user: String, password: String, schema: String, hostname: String, port: String)
 
+case class JWTConfig(secret: String)
 
-case class Config(db: DBConfig) {
-
-}
+case class Config(db: DBConfig, jwt: JWTConfig)

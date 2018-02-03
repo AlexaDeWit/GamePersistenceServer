@@ -7,11 +7,12 @@ import io.bunkitty.scifimmo.io.IOUtil._
 import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.queries.{AccessTokenQueries, UserQueries}
 import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
+import io.bunkitty.scifimmo.jwt.HmacSha256
 import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
 import org.http4s.HttpService
 import org.http4s.dsl.Http4sDsl
 
-case class SessionsService(transactor: Transactor[IO]) extends Http4sDsl[IO] {
+case class SessionsService(transactor: Transactor[IO], private val hmacService: HmacSha256) extends Http4sDsl[IO] {
 
   def route(): HttpService[IO] = HttpService {
     case request @ POST -> Root / "login" => {

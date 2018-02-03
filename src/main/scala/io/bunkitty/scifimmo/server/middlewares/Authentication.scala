@@ -8,15 +8,17 @@ import cats.effect._
 import cats.implicits._
 import doobie._
 import doobie.implicits._
+import io.bunkitty.scifimmo.jwt.HmacSha256
 import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.queries.UserQueries
 import io.bunkitty.scifimmo.throwables.InvalidAuthTokenException
+import io.bunkitty.scifimmo.jwt.HmacSha256
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Authorization
 import org.http4s.server.AuthMiddleware
 
-class Authentication(transactor: Transactor[IO]) extends Http4sDsl[IO] {
+case class Authentication(transactor: Transactor[IO], private val hmacService: HmacSha256) extends Http4sDsl[IO] {
 
   def retrieveUser: Kleisli[IO, BasicToken, Either[String, User]] = Kleisli(tokenString => {
     val now = Timestamp.valueOf(LocalDateTime.now())
