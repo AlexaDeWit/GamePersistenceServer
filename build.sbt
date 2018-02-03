@@ -9,6 +9,7 @@ val Http4sVersion = "0.18.0"
 val LogbackVersion = "1.2.3"
 val circeVersion = "0.9.1"
 val doobieVersion = "0.5.0-RC1"
+val jwtVersion = "0.14.1"
 
 addCompilerPlugin(
   "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full
@@ -27,5 +28,6 @@ libraryDependencies ++= Seq(
   "org.tpolecat"          %% "doobie-scalatest"     % doobieVersion,
   "de.mkammerer"          %  "argon2-jvm"           % "2.2",
   "com.github.pureconfig" %% "pureconfig"           % "0.9.0",
+  "com.pauldijou"         %% "jwt-core"             % jwtVersion,
   "org.scalatest"         %% "scalatest"            % "3.0.4"         % "test"
 )
