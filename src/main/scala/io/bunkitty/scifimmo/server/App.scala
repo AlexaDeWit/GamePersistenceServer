@@ -4,7 +4,7 @@ package io.bunkitty.scifimmo.server
 import io.bunkitty.scifimmo.server.config.{ApplicationConfigurationException, Config}
 import io.bunkitty.scifimmo.server.middlewares.Authentication
 import io.bunkitty.scifimmo.server.services._
-import io.bunkitty.scifimmo.jwt.HmacSha256
+import io.bunkitty.scifimmo.jwt.JwtService
 import fs2._
 import cats.effect._
 import cats.syntax.either._
@@ -24,7 +24,7 @@ object App extends StreamApp[IO] {
     transactor = Transactor.fromDriverManager[IO](
       "org.postgresql.Driver", s"jdbc:postgresql:${dbConf.schema}", dbConf.user, dbConf.password
     )
-    hmacService = HmacSha256(jwtConf.secret)
+    hmacService = JwtService(jwtConf.secret)
     authMiddleware = Authentication(transactor, hmacService).authMiddleware
   } yield ApplicationPrerequisites(authMiddleware, transactor, hmacService)
 
