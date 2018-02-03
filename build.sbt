@@ -5,10 +5,10 @@ scalaVersion := "2.12.4"
 scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions")
 assemblyJarName in assembly := "ScifiMmoServer.jar"
 
-val Http4sVersion = "0.18.0-M7"
+val Http4sVersion = "0.18.0"
 val LogbackVersion = "1.2.3"
-val circeVersion = "0.9.0-M3"
-val doobieVersion = "0.5.0-M11"
+val circeVersion = "0.9.1"
+val doobieVersion = "0.5.0-RC1"
 
 addCompilerPlugin(
   "org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full
@@ -25,9 +25,7 @@ libraryDependencies ++= Seq(
   "org.tpolecat"          %% "doobie-core"          % doobieVersion,
   "org.tpolecat"          %% "doobie-postgres"      % doobieVersion,
   "org.tpolecat"          %% "doobie-scalatest"     % doobieVersion,
-  "com.github.mpilquist"  %% "simulacrum"           % "0.11.0",
   "de.mkammerer"          %  "argon2-jvm"           % "2.2",
   "com.github.pureconfig" %% "pureconfig"           % "0.9.0",
-  "org.postgresql"        %  "postgresql"           % "42.1.4",
   "org.scalatest"         %% "scalatest"            % "3.0.4"         % "test"
 )

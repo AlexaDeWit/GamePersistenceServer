@@ -12,6 +12,8 @@ import doobie.util.transactor.Transactor
 import fs2.StreamApp.ExitCode
 import org.http4s.server.blaze.BlazeBuilder
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 
 object App extends StreamApp[IO] {
   private val config = Config.config
