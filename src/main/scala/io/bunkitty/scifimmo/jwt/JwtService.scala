@@ -1,13 +1,9 @@
 package io.bunkitty.scifimmo.jwt
 
-
-
-import cats._
 import cats.effect.IO
-import cats.syntax._
 import io.circe._
-import io.circe.syntax._
 import io.circe.parser._
+import io.circe.syntax._
 import pdi.jwt.{Jwt, JwtAlgorithm}
 
 case class JwtService(private val key: String) {

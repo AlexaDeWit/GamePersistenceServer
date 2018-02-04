@@ -1,14 +1,18 @@
 package io.bunkitty.scifimmo.server.services
 
+import java.sql.Timestamp
+import java.time.LocalDateTime
+
 import cats.effect.IO
 import doobie._
 import doobie.implicits._
 import io.bunkitty.scifimmo.io.IOUtil._
-import io.bunkitty.scifimmo.model._
-import io.bunkitty.scifimmo.queries.{AccessTokenQueries, UserQueries}
-import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
 import io.bunkitty.scifimmo.jwt.JwtService
-import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
+import io.bunkitty.scifimmo.queries.UserQueries
+import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
+import io.bunkitty.scifimmo.server.dto.{JwtPayload, UserInfo}
+import io.bunkitty.scifimmo.server.codecs.JwtPayloads._
+import io.circe.syntax._
 import org.http4s.HttpService
 import org.http4s.dsl.Http4sDsl
 
@@ -24,9 +28,9 @@ case class SessionsService(transactor: Transactor[IO], private val jwtService: J
           response <- if(passwordValidation) {
             user.id match {
               case Some(id) => {
-                val tokenToInsert = AccessTokens.generateFor(id)
-                val resultantTokenId =  AccessTokenQueries.insertAccessToken(tokenToInsert).transact(transactor)
-                resultantTokenId.flatMap(tokenId => Ok(AccessTokenDto.fromTokenDao(tokenToInsert.copy(id = Some(tokenId)))))
+                val jwt = JwtPayload(UserInfo(id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)))
+                val token = jwtService.sign(jwt.asJson.toString)
+                token.flatMap(t => Ok(t))
               }
               case _ => Forbidden()
             }
