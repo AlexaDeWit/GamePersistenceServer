@@ -12,7 +12,7 @@ import io.bunkitty.scifimmo.server.dto.response.sessions.AccessTokenDto
 import org.http4s.HttpService
 import org.http4s.dsl.Http4sDsl
 
-case class SessionsService(transactor: Transactor[IO], private val hmacService: JwtService) extends Http4sDsl[IO] {
+case class SessionsService(transactor: Transactor[IO], private val jwtService: JwtService) extends Http4sDsl[IO] {
 
   def route(): HttpService[IO] = HttpService {
     case request @ POST -> Root / "login" => {

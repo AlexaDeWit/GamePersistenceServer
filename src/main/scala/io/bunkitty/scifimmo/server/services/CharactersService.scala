@@ -8,26 +8,26 @@ import doobie.implicits._
 import io.bunkitty.scifimmo.model._
 import io.bunkitty.scifimmo.queries.CharacterQueries
 import io.bunkitty.scifimmo.server.codecs.Characters._
+import io.bunkitty.scifimmo.server.dto.UserInfo
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest
 import io.bunkitty.scifimmo.server.dto.requests.characters.CreateCharacterRequest._
 import org.http4s.AuthedService
 
 case class CharactersService(transactor: Transactor[IO]) {
 
-  def route(): AuthedService[User, IO] = AuthedService {
+  def route(): AuthedService[UserInfo, IO] = AuthedService {
     case GET -> Root as user => {
       for {
-        chars <- user.ioWithId(id => CharacterQueries.findCharactersForUser(id).transact(transactor))
+        chars <- CharacterQueries.findCharactersForUser(user.id).transact(transactor)
         response <- Ok(chars)
       } yield response
     }
     case request @ POST -> Root / "create" as user => {
       request.req.decode[CreateCharacterRequest] { character =>
+        val characterToInser = Character(None, user.id, character.name, character.species)
         for {
-          userId <- user.ioWithId(id => IO(id))
-          characterToInsert = Character(None, userId, character.name, character.species)
-          createdId <- CharacterQueries.insertCharacter(characterToInsert).transact(transactor)
-          response <- Ok(characterToInsert.copy(id = Some(createdId)))
+          createdId <- CharacterQueries.insertCharacter(characterToInser).transact(transactor)
+          response <- Ok(characterToInser.copy(id = Some(createdId)))
         } yield response
       }
     }
