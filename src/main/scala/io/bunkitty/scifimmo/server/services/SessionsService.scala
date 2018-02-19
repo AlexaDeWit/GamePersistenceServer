@@ -10,7 +10,7 @@ import io.bunkitty.scifimmo.io.IOUtil._
 import io.bunkitty.scifimmo.jwt.JwtService
 import io.bunkitty.scifimmo.queries.UserQueries
 import io.bunkitty.scifimmo.server.dto.request.accounts.LoginRequest
-import io.bunkitty.scifimmo.server.dto.{JwtPayload, UserInfo}
+import io.bunkitty.scifimmo.server.dto.{UserContextJwt, UserInfo}
 import io.bunkitty.scifimmo.server.codecs.JwtPayloads._
 import io.circe.syntax._
 import org.http4s.HttpService
@@ -28,7 +28,7 @@ case class SessionsService(transactor: Transactor[IO], private val jwtService: J
           response <- if(passwordValidation) {
             user.id match {
               case Some(id) => {
-                val jwt = JwtPayload(UserInfo(id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)))
+                val jwt = UserContextJwt(UserInfo(id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)))
                 val token = jwtService.sign(jwt.asJson.toString)
                 token.flatMap(t => Ok(t))
               }

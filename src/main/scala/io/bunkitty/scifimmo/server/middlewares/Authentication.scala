@@ -15,7 +15,7 @@ import io.bunkitty.scifimmo.throwables.InvalidAuthTokenException
 import io.bunkitty.scifimmo.server.codecs.UsersDto
 import io.bunkitty.scifimmo.server.codecs.JwtPayloads
 import io.bunkitty.scifimmo.jwt.JwtService
-import io.bunkitty.scifimmo.server.dto.{JwtPayload, UserInfo}
+import io.bunkitty.scifimmo.server.dto.{UserContextJwt, UserInfo}
 import org.http4s._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.Authorization
@@ -28,8 +28,8 @@ case class Authentication(transactor: Transactor[IO], private val jwtService: Jw
     val message = header.fold(s => Left(s), h => JsonWebToken.extract(h.value))
     val payload =  message.fold(
     s => IO(Left(s)),
-    token => jwtService.decode[JwtPayload](token.token, JwtPayloads.jwtPayloadDecoder)
-            .map[Either[String, JwtPayload]](Right.apply)
+    token => jwtService.decode[UserContextJwt](token.token, JwtPayloads.jwtUserContextPayloadDecoder)
+            .map[Either[String, UserContextJwt]](Right.apply)
     )
     payload.map{
       case Left(err) => Left(err)
