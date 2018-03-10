@@ -22,7 +22,7 @@ object App extends StreamApp[IO] {
     dbConf = conf.db
     jwtConf = conf.jwt
     transactor = Transactor.fromDriverManager[IO](
-      "org.postgresql.Driver", s"jdbc:postgresql:${dbConf.schema}", dbConf.user, dbConf.password
+      "org.postgresql.Driver", s"jdbc:postgresql://${dbConf.hostname}/${dbConf.schema}", dbConf.user, dbConf.password
     )
     hmacService = JwtService(jwtConf.secret)
     authMiddleware = Authentication(transactor, hmacService).authMiddleware
