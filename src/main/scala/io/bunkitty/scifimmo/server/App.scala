@@ -43,7 +43,10 @@ object App extends StreamApp[IO] {
           .mountService(charactersService, "/api/characters")
           .serve
       }
-      case Left(message) => Stream.raiseError(new ApplicationConfigurationException(message))
+      case Left(message) => {
+        println(message)
+        Stream.raiseError(new ApplicationConfigurationException(message))
+      }
     }
 
   }

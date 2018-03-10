@@ -5,7 +5,7 @@ scalaVersion := "2.12.4"
 scalacOptions ++= Seq("-feature", "-language:higherKinds", "-deprecation", "-Ypartial-unification", "-language:implicitConversions")
 assemblyJarName in assembly := "ScifiMmoServer.jar"
 
-val Http4sVersion = "0.18.0"
+val Http4sVersion = "0.18.2"
 val LogbackVersion = "1.2.3"
 val circeVersion = "0.9.1"
 val doobieVersion = "0.5.0-RC1"
