@@ -1,10 +1,5 @@
 package io.bunkitty.scifimmo.queries
 
-import java.sql.Timestamp
-import java.time.LocalDateTime
-
-import doobie._
-import doobie.implicits._
 import doobie.scalatest._
 import io.bunkitty.scifimmo.argon2.HashedPassword
 import io.bunkitty.scifimmo.common.TestResources
