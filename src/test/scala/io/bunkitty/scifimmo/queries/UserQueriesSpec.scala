@@ -20,10 +20,6 @@ class UserQueriesSpec extends FunSuite with Matchers with IOChecker {
     check(findUserQuery(1))
   }
 
-  test("user from token string"){
-    check(findUserFromTokenQuery("fdasdfas", Timestamp.valueOf(LocalDateTime.now())))
-  }
-
   test("insert user query") {
     check(insertUserQuery(User(None, "Bah", HashedPassword.unsafeWrapString("foo"), "Cats")))
   }
