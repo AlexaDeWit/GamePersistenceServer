@@ -4,8 +4,8 @@ Sequel.migration do
   end
   down do
     create_table(:SESSION_TOKENS) do
-      primary_key :ID, :null => false, type: :Bignum
-      foreign_key :FK_USER_ID, :USERS, :null => false, type: :Bignum
+      primary_key :ID, :null => false, type: 'varchar(64)'
+      foreign_key :FK_USER_ID, :USERS, :null => false, type: 'varchar(64)'
       String :TOKEN, :null=>false, :unique=>true
       DateTime :EXPIRATION, :null=>false
     end

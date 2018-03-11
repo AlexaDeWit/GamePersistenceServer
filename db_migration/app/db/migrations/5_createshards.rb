@@ -1,8 +1,8 @@
 Sequel.migration do
   up do
     create_table(:SHARDS) do
-      primary_key :ID, :null=>false, type: 'varchar(32)'
-      foreign_key :FK_CLIENT_ID, :CLIENTS, :null=>false, type: 'varchar(32)'
+      primary_key :ID, :null=>false, type: 'varchar(64)'
+      foreign_key :FK_CLIENT_ID, :CLIENTS, :null=>false, type: 'varchar(64)'
       String    :NAME, :null=>false, :unique=>true
       String    :REGION, :default => "EU"
       Integer   :POPULATION, :default => 0

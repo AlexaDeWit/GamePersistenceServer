@@ -54,7 +54,7 @@ object CharacterQueries {
           )
           VALUES
           (
-              ${character.id}
+              ${character.id},
               ${character.fkUserId},
               ${character.name}, ${character.speciesName},
               ${character.locationX}, ${character.locationY}, ${character.locationZ},
