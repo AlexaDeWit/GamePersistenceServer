@@ -19,6 +19,14 @@ object CharacterQueries {
 
   def findCharacter(id: Long): ConnectionIO[Option[Character]] = findCharacterQuery(id).option
 
+  def deleteCharacterQuery(id: Long): Query0[Long] =
+    sql"""DELETE
+          FROM "CHARACTERS"
+          WHERE "ID" = $id
+          RETURNING "ID"""".query[Long]
+
+  def deleteCharacter(id: Long): ConnectionIO[Long] = deleteCharacterQuery(id).unique
+
   def findCharactersForUserQuery(userId: Long): Query0[Character] =
     sql"""SELECT
             "ID", "FK_USER_ID",

@@ -29,6 +29,7 @@ case class CharactersService(transactor: Transactor[IO], private val jwtService:
         response <- Ok(chars)
       } yield response
     }
+
     case request @ POST -> Root / "create" as user => {
       request.req.decode[CreateCharacterRequest] { character =>
         val characterToInser = Character(None, user.id, character.name, character.species)
@@ -38,14 +39,25 @@ case class CharactersService(transactor: Transactor[IO], private val jwtService:
         } yield response
       }
     }
+
     case GET -> Root / "validateCharacterContext" / LongVar(id) as user => {
       for {
         chars <- CharacterQueries.findCharactersForUser(user.id).transact(transactor)
         charId <- chars.find(_.id.contains(id)).ioResult().flatMap(_.id.ioResult())
         jwt = CharacterContextJwt(UserInfo(user.id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)), charId)
         token <- jwtService.sign(jwt.asJson.toString)
-        response <- Ok(token.asJson.toString)
+        response <- Ok(token.toString)
       } yield response
     }
+
+    case DELETE -> Root / LongVar(id) as user => {
+      for {
+        ownedCharacter <- CharacterQueries.findCharacter(id).transact(transactor)
+        charId <- ownedCharacter.flatMap(_.id).ioResult("Could not retrieve owned character id")
+        deletedId <- CharacterQueries.deleteCharacter(charId).transact(transactor)
+        response <- Ok(deletedId.toString)
+      } yield response
+    }
+
   }
 }
