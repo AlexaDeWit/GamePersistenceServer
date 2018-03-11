@@ -22,5 +22,5 @@ class UserQueriesSpec extends FunSuite with Matchers with IOChecker {
   test("user from email string"){
     check(findUserByEmailQuery("what"))
   }
-  
+
 }

@@ -44,6 +44,7 @@ object CharacterQueries {
     sql"""
           INSERT INTO "CHARACTERS"
           (
+              "ID",
               "FK_USER_ID",
               "NAME","SPECIES_NAME",
               "LOCATION_X","LOCATION_Y","LOCATION_Z",
@@ -53,6 +54,7 @@ object CharacterQueries {
           )
           VALUES
           (
+              ${character.id}
               ${character.fkUserId},
               ${character.name}, ${character.speciesName},
               ${character.locationX}, ${character.locationY}, ${character.locationZ},
