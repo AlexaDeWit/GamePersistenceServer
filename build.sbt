@@ -8,7 +8,7 @@ assemblyJarName in assembly := "ScifiMmoServer.jar"
 val Http4sVersion = "0.18.2"
 val LogbackVersion = "1.2.3"
 val circeVersion = "0.9.1"
-val doobieVersion = "0.5.0-RC1"
+val doobieVersion = "0.5.1"
 val jwtVersion = "0.14.1"
 
 addCompilerPlugin(
@@ -27,6 +27,7 @@ libraryDependencies ++= Seq(
   "org.tpolecat"          %% "doobie-core"          % doobieVersion,
   "org.tpolecat"          %% "doobie-postgres"      % doobieVersion,
   "org.tpolecat"          %% "doobie-scalatest"     % doobieVersion,
+  "ch.qos.logback"        %  "logback-classic"      % LogbackVersion,
   "de.mkammerer"          %  "argon2-jvm"           % "2.2",
   "com.github.pureconfig" %% "pureconfig"           % "0.9.0",
   "com.pauldijou"         %% "jwt-core"             % jwtVersion,
