@@ -1,7 +1,7 @@
 package io.bunkitty.scifimmo.model
 
-case class Character(id: Option[Long],
-                     fkUserId: Long,
+case class Character(id: String,
+                     fkUserId: String,
                      name: String,
                      speciesName: String,
                      locationX: Option[Float] = None,

@@ -12,20 +12,20 @@ class CharacterQueriesSpec extends FunSuite with Matchers with IOChecker {
   val transactor = TestResources.postgresTransactor
 
   test("character from id") {
-    check(CharacterQueries.findCharacterQuery(1))
+    check(CharacterQueries.findCharacterQuery("sdfasd"))
   }
 
   test("characters from user id"){
-    check(CharacterQueries.findCharactersForUserQuery(1))
+    check(CharacterQueries.findCharactersForUserQuery("asdfsd"))
   }
 
   test("insert character to characters table"){
-    check(CharacterQueries.insertCharacterQuery(Character(None, 1, "Dog", "Cat")))
+    check(CharacterQueries.insertCharacterQuery(Character("sdfasdf", "sdfasd", "Dog", "Cat")))
   }
 
   test("update character already present in characters table"){
-    check(CharacterQueries.insertCharacterQuery(Character(None, 1, "Dog", "Cat")))
-    check(CharacterQueries.insertCharacterQuery(Character(Some(1), 1, "Dog", "Cat")))
+    check(CharacterQueries.insertCharacterQuery(Character("Stsdfsdfs", "dsfasdfs", "Dog", "Cat")))
+    check(CharacterQueries.insertCharacterQuery(Character("sdfasdkl", "sdfasdfs", "Dog", "Cat")))
   }
 
 }

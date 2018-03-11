@@ -1,4 +1,4 @@
 package io.bunkitty.scifimmo.model
 
-case class Client(id: Option[Long], clientId: String, clientSecret: String )
+case class Client(id: String, clientId: String, clientSecret: String )
 

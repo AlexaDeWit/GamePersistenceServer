@@ -12,16 +12,15 @@ class UserQueriesSpec extends FunSuite with Matchers with IOChecker {
   val transactor = TestResources.postgresTransactor
 
   test("user from id") {
-    check(findUserQuery(1))
+    check(findUserQuery("sdfasdjkfs"))
   }
 
   test("insert user query") {
-    check(insertUserQuery(User(None, "Bah", HashedPassword.unsafeWrapString("foo"), "Cats")))
+    check(insertUserQuery(User("dfasdhfjs", "Bah", HashedPassword.unsafeWrapString("foo"), "Cats")))
   }
 
   test("user from email string"){
     check(findUserByEmailQuery("what"))
   }
-
-
+  
 }

@@ -1,7 +1,7 @@
 Sequel.migration do
   up do
     create_table(:USERS) do
-      primary_key :ID, :null => false, type: :Bignum
+      primary_key :ID, :null => false, type: 'varchar(32)'
       String :EMAIL, :null=>false, :unique=>true
       String :PASSWORD, :null=>false
       String :USERNAME, :null=>false, :unique=>true

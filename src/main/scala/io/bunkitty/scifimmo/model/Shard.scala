@@ -1,7 +1,7 @@
 package io.bunkitty.scifimmo.model
 
-case class Shard(id: Option[Long],
-                 fkClientId: Long,
+case class Shard(id: String,
+                 fkClientId: String,
                  name: String,
                  region: Option[String],
                  population: Option[Long],

@@ -2,6 +2,7 @@ package io.bunkitty.scifimmo.server.services
 
 import java.sql.Timestamp
 import java.time.LocalDateTime
+import java.util.UUID
 
 import org.http4s._
 import org.http4s.dsl.io._
@@ -32,28 +33,28 @@ case class CharactersService(transactor: Transactor[IO], private val jwtService:
 
     case request @ POST -> Root / "create" as user => {
       request.req.decode[CreateCharacterRequest] { character =>
-        val characterToInser = Character(None, user.id, character.name, character.species)
+        val characterToInsert = Character(UUID.randomUUID().toString, user.id, character.name, character.species)
         for {
-          createdId <- CharacterQueries.insertCharacter(characterToInser).transact(transactor)
-          response <- Ok(characterToInser.copy(id = Some(createdId)))
+          createdId <- CharacterQueries.insertCharacter(characterToInsert).transact(transactor)
+          response <- Ok(characterToInsert.copy(id = createdId))
         } yield response
       }
     }
 
-    case GET -> Root / "validateCharacterContext" / LongVar(id) as user => {
+    case GET -> Root / "validateCharacterContext" / id as user => {
       for {
         chars <- CharacterQueries.findCharactersForUser(user.id).transact(transactor)
-        charId <- chars.find(_.id.contains(id)).ioResult().flatMap(_.id.ioResult())
+        charId <- chars.find(_.id == id).ioResult().map(_.id)
         jwt = CharacterContextJwt(UserInfo(user.id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)), charId)
         token <- jwtService.sign(jwt.asJson.toString)
         response <- Ok(token.toString)
       } yield response
     }
 
-    case DELETE -> Root / LongVar(id) as user => {
+    case DELETE -> Root / id as user => {
       for {
         ownedCharacter <- CharacterQueries.findCharacter(id).transact(transactor)
-        charId <- ownedCharacter.flatMap(_.id).ioResult("Could not retrieve owned character id")
+        charId <- ownedCharacter.filter(_.fkUserId == user.id).map(_.id).ioResult("Could not retrieve owned character id")
         deletedId <- CharacterQueries.deleteCharacter(charId).transact(transactor)
         response <- Ok(deletedId.toString)
       } yield response

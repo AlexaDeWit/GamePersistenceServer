@@ -6,7 +6,7 @@ import io.bunkitty.scifimmo.model.Character
 
 object CharacterQueries {
 
-  def findCharacterQuery(id: Long): Query0[Character] =
+  def findCharacterQuery(id: String): Query0[Character] =
     sql"""SELECT
              "ID", "FK_USER_ID",
              "NAME","SPECIES_NAME",
@@ -17,17 +17,17 @@ object CharacterQueries {
          FROM "CHARACTERS"
          WHERE "ID" = $id""".query[Character]
 
-  def findCharacter(id: Long): ConnectionIO[Option[Character]] = findCharacterQuery(id).option
+  def findCharacter(id: String): ConnectionIO[Option[Character]] = findCharacterQuery(id).option
 
-  def deleteCharacterQuery(id: Long): Query0[Long] =
+  def deleteCharacterQuery(id: String): Query0[String] =
     sql"""DELETE
           FROM "CHARACTERS"
           WHERE "ID" = $id
-          RETURNING "ID"""".query[Long]
+          RETURNING "ID"""".query[String]
 
-  def deleteCharacter(id: Long): ConnectionIO[Long] = deleteCharacterQuery(id).unique
+  def deleteCharacter(id: String): ConnectionIO[String] = deleteCharacterQuery(id).unique
 
-  def findCharactersForUserQuery(userId: Long): Query0[Character] =
+  def findCharactersForUserQuery(userId: String): Query0[Character] =
     sql"""SELECT
             "ID", "FK_USER_ID",
             "NAME","SPECIES_NAME",
@@ -38,9 +38,9 @@ object CharacterQueries {
         FROM "CHARACTERS"
         WHERE "FK_USER_ID" = $userId""".query[Character]
 
-  def findCharactersForUser(userId: Long): ConnectionIO[List[Character]] = findCharactersForUserQuery(userId).to[List]
+  def findCharactersForUser(userId: String): ConnectionIO[List[Character]] = findCharactersForUserQuery(userId).to[List]
 
-  def insertCharacterQuery(character: Character): Query0[Long] =
+  def insertCharacterQuery(character: Character): Query0[String] =
     sql"""
           INSERT INTO "CHARACTERS"
           (
@@ -61,12 +61,12 @@ object CharacterQueries {
               ${character.currentFocus}, ${character.currentClarity}, ${character.currentWillpower}
           )
           RETURNING "ID"
-      """.query[Long]
+      """.query[String]
 
-  def insertCharacter(character: Character): ConnectionIO[Long] =
+  def insertCharacter(character: Character): ConnectionIO[String] =
     insertCharacterQuery(character).unique
 
-  def updateCharacterQuery(character: Character): Query0[Long] =
+  def updateCharacterQuery(character: Character): Query0[String] =
     sql"""
           UPDATE "CHARACTERS" SET
           (
@@ -86,13 +86,10 @@ object CharacterQueries {
           )
           WHERE "ID" = ${character.id}
           RETURNING "ID"
-      """.query[Long]
+      """.query[String]
 
-  def updateCharacter(character: Character): ConnectionIO[Long] =
+  def updateCharacter(character: Character): ConnectionIO[String] =
     updateCharacterQuery(character).unique
 
-  def insertOrUpdateCharacter(character: Character): ConnectionIO[Long] = {
-    character.id.map(n => updateCharacterQuery(character)).getOrElse(insertCharacterQuery(character)).unique
-  }
 
 }

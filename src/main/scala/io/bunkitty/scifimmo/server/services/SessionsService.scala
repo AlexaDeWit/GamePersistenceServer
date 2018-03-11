@@ -26,14 +26,9 @@ case class SessionsService(transactor: Transactor[IO], private val jwtService: J
           user <- userOpt.ioResult(s"Could not retrieve user with email ${loginRequest.email}")
           passwordValidation <- IO(user.password.verify(loginRequest.rawPassword))
           response <- if(passwordValidation) {
-            user.id match {
-              case Some(id) => {
-                val jwt = UserContextJwt(UserInfo(id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)))
-                val token = jwtService.sign(jwt.asJson.toString)
-                token.flatMap(t => Ok(t))
-              }
-              case _ => Forbidden()
-            }
+            val jwt = UserContextJwt(UserInfo(user.id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)))
+            val token = jwtService.sign(jwt.asJson.toString)
+            token.flatMap(t => Ok(t))
           } else {
             Forbidden()
           }
