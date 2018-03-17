@@ -13,7 +13,8 @@ object CharacterQueries {
              "LOCATION_X","LOCATION_Y","LOCATION_Z",
              "CURRENT_HEALTH","CURRENT_TOUGHNESS","CURRENT_CONSTITUTION",
              "CURRENT_STAMINA","CURRENT_ENDURANCE","CURRENT_QUICKNESS",
-             "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER"
+             "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER",
+             "IS_NEW"
          FROM "CHARACTERS"
          WHERE "ID" = $id""".query[Character]
 
@@ -34,7 +35,8 @@ object CharacterQueries {
             "LOCATION_X","LOCATION_Y","LOCATION_Z",
             "CURRENT_HEALTH","CURRENT_TOUGHNESS","CURRENT_CONSTITUTION",
             "CURRENT_STAMINA","CURRENT_ENDURANCE","CURRENT_QUICKNESS",
-            "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER"
+            "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER",
+            "IS_NEW"
         FROM "CHARACTERS"
         WHERE "FK_USER_ID" = $userId""".query[Character]
 
@@ -50,7 +52,8 @@ object CharacterQueries {
               "LOCATION_X","LOCATION_Y","LOCATION_Z",
               "CURRENT_HEALTH","CURRENT_TOUGHNESS","CURRENT_CONSTITUTION",
               "CURRENT_STAMINA","CURRENT_ENDURANCE","CURRENT_QUICKNESS",
-              "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER"
+              "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER",
+              "IS_NEW"
           )
           VALUES
           (
@@ -60,7 +63,8 @@ object CharacterQueries {
               ${character.locationX}, ${character.locationY}, ${character.locationZ},
               ${character.currentHealth}, ${character.currentToughness}, ${character.currentConstitution},
               ${character.currentStamina}, ${character.currentEndurance}, ${character.currentQuickness},
-              ${character.currentFocus}, ${character.currentClarity}, ${character.currentWillpower}
+              ${character.currentFocus}, ${character.currentClarity}, ${character.currentWillpower},
+              ${character.isNewCharacter}
           )
           RETURNING "ID"
       """.query[String]
@@ -76,7 +80,8 @@ object CharacterQueries {
               "LOCATION_X","LOCATION_Y","LOCATION_Z",
               "CURRENT_HEALTH","CURRENT_TOUGHNESS","CURRENT_CONSTITUTION",
               "CURRENT_STAMINA","CURRENT_ENDURANCE","CURRENT_QUICKNESS",
-              "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER"
+              "CURRENT_FOCUS","CURRENT_CLARITY", "CURRENT_WILLPOWER",
+              "IS_NEW"
           )
           VALUES
           (
@@ -84,7 +89,8 @@ object CharacterQueries {
               ${character.locationX}, ${character.locationY}, ${character.locationZ},
               ${character.currentHealth}, ${character.currentToughness}, ${character.currentConstitution},
               ${character.currentStamina}, ${character.currentEndurance}, ${character.currentQuickness},
-              ${character.currentFocus}, ${character.currentClarity}, ${character.currentWillpower}
+              ${character.currentFocus}, ${character.currentClarity}, ${character.currentWillpower},
+              ${character.isNewCharacter}
           )
           WHERE "ID" = ${character.id}
           RETURNING "ID"
