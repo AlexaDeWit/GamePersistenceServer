@@ -17,4 +17,5 @@ case class Character(id: String,
                      currentFocus: Option[Float] = None,
                      currentClarity: Option[Float] = None,
                      currentWillpower: Option[Float] = None,
+                     isNewCharacter: Boolean = true
                     )

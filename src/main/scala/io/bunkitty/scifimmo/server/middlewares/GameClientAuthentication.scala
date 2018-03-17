@@ -20,7 +20,11 @@ case class GameClientAuthentication(transactor: Transactor[IO], private val jwtS
     message.fold(
       s => IO(Left(s)),
       token => jwtService.decode[GameClientClaims](token.token, JwtPayloads.gameClientClaimsDecoder)
-        .map[Either[String, GameClientClaims]](Right.apply)
+        .map[Either[String, GameClientClaims]](Right.apply).map{
+        case Left(err) => Left(err)
+        case Right(claims) if claims.isAuthoritativeGameServer => Right(claims)
+        case _ => Left("Insufficient authority to access this resource.")
+      }
     )
   })
 

@@ -1,5 +1,5 @@
 package io.bunkitty.scifimmo.server.dto
 
-case class GameClientClaims(clientId: String) {
+case class GameClientClaims(clientId: String, isAuthoritativeGameServer: Boolean) {
 
 }
