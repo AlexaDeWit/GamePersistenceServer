@@ -5,14 +5,8 @@ import java.time.LocalDateTime
 
 import cats.data._
 import cats.effect._
-import cats.implicits._
 import doobie._
-import doobie.implicits._
-import io.bunkitty.scifimmo.jwt.JwtService
 import io.bunkitty.scifimmo.model._
-import io.bunkitty.scifimmo.queries.UserQueries
-import io.bunkitty.scifimmo.throwables.InvalidAuthTokenException
-import io.bunkitty.scifimmo.server.codecs.UsersDto
 import io.bunkitty.scifimmo.server.codecs.JwtPayloads
 import io.bunkitty.scifimmo.jwt.JwtService
 import io.bunkitty.scifimmo.server.dto.{UserContextJwt, UserInfo}

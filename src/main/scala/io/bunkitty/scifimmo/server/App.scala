@@ -3,6 +3,7 @@ package io.bunkitty.scifimmo.server
 
 import io.bunkitty.scifimmo.server.config.{ApplicationConfigurationException, Config}
 import io.bunkitty.scifimmo.server.middlewares.Authentication
+import io.bunkitty.scifimmo.server.middlewares.GameClientAuthentication
 import io.bunkitty.scifimmo.server.services._
 import io.bunkitty.scifimmo.jwt.JwtService
 import fs2._
@@ -26,7 +27,8 @@ object App extends StreamApp[IO] {
     )
     hmacService = JwtService(jwtConf.secret)
     authMiddleware = Authentication(transactor, hmacService).authMiddleware
-  } yield ApplicationPrerequisites(authMiddleware, transactor, hmacService)
+    gameClientAuthMiddleware = GameClientAuthentication(transactor, hmacService).authMiddleware
+  } yield ApplicationPrerequisites(authMiddleware, transactor, hmacService, gameClientAuthMiddleware)
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     applicationPrereqs match {
