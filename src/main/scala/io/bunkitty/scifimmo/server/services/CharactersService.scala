@@ -43,11 +43,11 @@ case class CharactersService(transactor: Transactor[IO], private val jwtService:
 
     case GET -> Root / "validateCharacterContext" / id as user => {
       for {
-        chars <- CharacterQueries.findCharactersForUser(user.id).transact(transactor)
-        charId <- chars.find(_.id == id).ioResult().map(_.id)
-        jwt = CharacterContextJwt(UserInfo(user.id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)), charId)
-        token <- jwtService.sign(jwt.asJson.toString)
-        response <- Ok(token.toString)
+        chars      <- CharacterQueries.findCharactersForUser(user.id).transact(transactor)
+        charId     <- chars.find(_.id == id).ioResult().map(_.id)
+        jwt        = CharacterContextJwt(UserInfo(user.id, user.email, user.username),Timestamp.valueOf(LocalDateTime.now().plusDays(7)), charId)
+        token      <- jwtService.sign(jwt.asJson.toString)
+        response   <- Ok(token.toString)
       } yield response
     }
 
@@ -59,6 +59,5 @@ case class CharactersService(transactor: Transactor[IO], private val jwtService:
         response <- Ok(deletedId.toString)
       } yield response
     }
-
   }
 }
